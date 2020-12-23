@@ -1,0 +1,24 @@
+{
+  "name": "react-meta-state",
+  "version": "1.0.0",
+  "description": "react hook for state",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisfactory/react-meta-state.git"
+  },
+  "keywords": [
+    "react",
+    "hook",
+    "state"
+  ],
+  "author": "ohl christophe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisfactory/react-meta-state/issues"
+  },
+  "homepage": "https://github.com/chrisfactory/react-meta-state#readme"
+}
