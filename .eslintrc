@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "@react-bootstrap",
+    "4catalyzer-typescript",
+    "prettier",
+    "prettier/react",
+    "prettier/@typescript-eslint"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "import/extensions": "off",
+    "prettier/prettier": "warn"
+  }
+}
