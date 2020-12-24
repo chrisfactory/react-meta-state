@@ -1,3 +1,3 @@
-import useStateMetaSate from './useStateMetaSate';
+import useMetaState from './useMetaState';
 
-export default useStateMetaSate;
+export default useMetaState;
