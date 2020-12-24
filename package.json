@@ -27,12 +27,21 @@
   "types": "lib/esm/index.d.ts",
   "sideEffects": false,
   "scripts": {
+    "webtest": "yarn && yarn --cwd www",
     "build": "node tools/build.js",
+    "build-docs": "yarn --cwd www build",
     "build-types": "yarn tsc -d --emitDeclarationOnly --outDir types",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "deploy-docs": "yarn --cwd www deploy",
+    "format": "eslint --ext tsx --ext ts src --fix",
     "lint": "eslint --ext tsx --ext ts src && tsc --noEmit",
     "prepublishOnly": "npm run build",
     "release": "rollout",
-    "start": "yarn --cwd www develop"
+    "start": "yarn --cwd www develop",
+    "tdd": "karma start",
+    "test": "npm run lint && npm run test-browser && npm run test-node",
+    "test-browser": "cross-env NODE_ENV=test karma start --single-run",
+    "test-node": "cross-env NODE_ENV=test-server mocha test/server/*Spec.js"
   },
   "husky": {
     "hooks": {

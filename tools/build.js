@@ -58,7 +58,7 @@ const buildEsm = step('es modules', async () => {
 });
 
 /**
- * Bundles a minified and unminified version of react-met-state including
+ * Bundles a minified and unminified version of react-meta-state including
  * all it's immediate dependencies (excluding React, ReactDOM, etc)
  */
 const buildDist = step(
