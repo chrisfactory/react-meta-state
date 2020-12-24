@@ -28,7 +28,7 @@
   "types": "lib/esm/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "webtest": "yarn && yarn --cwd www",
+    "reactmetastate": "yarn && yarn --cwd www",
     "build": "node tools/build.js",
     "build-docs": "yarn --cwd www build",
     "build-types": "yarn tsc -d --emitDeclarationOnly --outDir types",
