@@ -1,5 +1,5 @@
 /* eslint no-new-func: 0 */
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import useMetaState from '../src/index';
 
 describe('useMetaState', () => {
@@ -13,9 +13,19 @@ describe('useMetaState', () => {
       expect(result.current[0]).to.equal(element);
     });
   });
-  it('Should be set the default with simple action.', () => {
+  it('Should be set the default with action.', () => {
     ['string', 4, true, undefined].forEach((element) => {
       const { result } = renderHook(() => useMetaState(() => element));
+      expect(result.current[0]).to.equal(element);
+    });
+  });
+
+  it('Should be set value.', () => {
+    const { result } = renderHook(() => useMetaState());
+    ['string', 4, true, undefined].forEach((element) => {
+      act(() => {
+        result.current[1](element);
+      });
       expect(result.current[0]).to.equal(element);
     });
   });
