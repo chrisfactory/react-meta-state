@@ -7,7 +7,7 @@ module.exports = (distRoot, optimize) => ({
   output: {
     path: distRoot,
     filename: optimize ? 'react-meta-state.min.js' : 'react-meta-state.js',
-    library: 'ReactMetaState',
+    library: 'react-meta-state',
     libraryTarget: 'umd',
   },
   module: {
@@ -34,11 +34,11 @@ module.exports = (distRoot, optimize) => ({
       commonjs: 'react',
       amd: 'react',
     },
-    'react-dom': {
-      root: 'ReactDOM',
-      commonjs2: 'react-dom',
-      commonjs: 'react-dom',
-      amd: 'react-dom',
-    },
+    // 'react-dom': {
+    //   root: 'ReactDOM',
+    //   commonjs2: 'react-dom',
+    //   commonjs: 'react-dom',
+    //   amd: 'react-dom',
+    // },
   },
 });

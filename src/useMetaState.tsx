@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-export default function useMetaState<S = undefined>(
+function useMetaState<S = undefined>(
   initialState: S | (() => S) | undefined = undefined,
 ): [S | undefined, Dispatch<SetStateAction<S>>] {
-  const [errorVBox, seterrorVBox] = useState(initialState);
+  const [metaState, setMetaState] = useState(initialState);
 
-  return [errorVBox, seterrorVBox];
+  return [metaState, setMetaState];
 }
+export default useMetaState;
