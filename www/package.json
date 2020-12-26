@@ -1,0 +1,81 @@
+{
+  "name": "react-meta-state-docs",
+  "version": "1.0.0",
+  "description": "React-Meta-State Documentation",
+  "keywords": [
+    "gatsby"
+  ],
+  "homepage": "https://react-meta-state.github.io/",
+  "bugs": {
+    "url": "https://github.com/chrisfactory/react-meta-state/issues"
+  },
+  "license": "MIT",
+  "author": "Christophe Ohl",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisfactory/react-meta-state.git"
+  },
+  "scripts": {
+    "start": "yarn develop",
+    "develop": "gatsby develop",
+    "build": "gatsby build",
+    "deploy": "gatsby build --prefix-paths && yarn push-docs",
+    "push-docs": "gh-pages -d public --branch master --repo \"https://github.com/chrisfactory/react-meta-state.git\"",
+    "sort": "import-sort 'src/pages/**/*.js'"
+  },
+  "importSort": {
+    ".js": {
+      "style": "module",
+      "parser": "4catalyzer"
+    }
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.13",
+    "@mdx-js/mdx": "^1.6.22",
+    "@mdx-js/react": "^1.6.22",
+    "@restart/context": "^2.1.4",
+    "@restart/hooks": "^0.3.25",
+    "ast-types": "^0.14.2",
+    "astroturf": "^0.10.5",
+    "bootstrap": "^4.5.3",
+    "classnames": "^2.2.6",
+    "common-tags": "^1.8.0",
+    "copy-text-to-clipboard": "^2.2.0",
+    "docsearch.js": "^2.6.3",
+    "dom-helpers": "^5.2.0",
+    "formik": "^2.2.6",
+    "gatsby": "^2.29.1",
+    "gatsby-plugin-astroturf": "^0.2.1",
+    "gatsby-plugin-catch-links": "^2.7.0",
+    "gatsby-plugin-mdx": "^1.7.0",
+    "gatsby-plugin-react-helmet": "^3.7.0",
+    "gatsby-plugin-sass": "^2.8.0",
+    "gatsby-remark-prismjs": "^3.10.0",
+    "gatsby-source-filesystem": "2.8.0",
+    "gatsby-transformer-react-docgen": "^5.6.0",
+    "gatsby-transformer-remark": "^2.13.0",
+    "gh-pages": "^3.1.0",
+    "holderjs": "^2.9.7",
+    "import-sort-cli": "^6.0.0",
+    "import-sort-parser-4catalyzer": "^4.0.1",
+    "import-sort-style-module": "^6.0.0",
+    "lodash": "^4.17.20",
+    "node-sass": "^4.14.1",
+    "prismjs": "^1.22.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.14.0",
+    "react-docgen": "^5.3.1",
+    "react-dom": "^16.14.0",
+    "react-helmet": "^6.1.0",
+    "react-live": "^2.2.3",
+    "remark-slug": "^6.0.0",
+    "shakespeare-data": "^3.0.0",
+    "yup": "^0.32.8"
+  },
+  "dependencies": {
+    "react-bootstrap": "^1.4.0"
+  }
+}
