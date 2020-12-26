@@ -14,7 +14,7 @@ const Link = styled('a')`
 
 export default (props) => {
   const { component } = props;
-  const linkToComponentOnGitHub = `//github.com/react-bootstrap/react-bootstrap/tree/v${version}/src/${component}.tsx`;
+  const linkToComponentOnGitHub = `//github.com/chrisfactory/react-meta-state/tree/tree/v${version}/src/${component}.tsx`;
 
   return (
     <OverlayTrigger

@@ -5,36 +5,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Dropdown from 'react-bootstrap/Dropdown';
 import styled from 'astroturf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord';
 import { faGithub } from '@fortawesome/free-brands-svg-icons/faGithub';
 
 import logo from '../assets/logo.svg';
-
-const Banner = styled(Navbar).attrs({
-  as: 'header',
-  variant: 'dark',
-  role: 'banner',
-})`
-  @import '../css/theme.scss';
-
-  composes: text-light justify-content-center from global;
-  min-height: 4rem;
-  background-color: $darker;
-  filter: none;
-  -webkit-filter: none;
-
-  a {
-    margin-left: 1em;
-    color: $brand;
-  }
-
-  @include media-breakpoint-up(md) {
-    z-index: 1040;
-  }
-`;
 
 const StyledNavbar = styled(Navbar).attrs({
   as: 'header',
@@ -70,12 +46,6 @@ const StyledNavLink = styled(Nav.Link)`
   }
 `;
 
-const StyledDropdown = styled(Dropdown)`
-  @import '../css/theme.scss';
-
-  margin-right: $spacer;
-`;
-
 const NAV_LINKS = [
   {
     link: '/',
@@ -99,22 +69,12 @@ const propTypes = {
 function NavMain({ activePage }) {
   return (
     <>
-      <Banner>
-        <span className="text-light">Black Lives Matter.</span>
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href="https://support.eji.org/give/153413/#!/donation/checkout"
-        >
-          Support the Equal Justice Initiative.
-        </a>
-      </Banner>
       <StyledNavbar expand collapseOnSelect>
         <SkipToContentLink href="#rb-docs-content" tabIndex="0">
           Skip to content
         </SkipToContentLink>
         <Navbar.Brand href="/">
-          <img src={logo} alt="react-bootstrap" height={30} />
+          <img src={logo} alt="react-meta-state" height={30} />
         </Navbar.Brand>
 
         <Nav role="navigation" id="top" className="d-none d-md-flex">
@@ -129,25 +89,13 @@ function NavMain({ activePage }) {
           ))}
         </Nav>
         <Nav className="ml-auto pr-md-5">
-          <StyledDropdown id="t-version">
-            <Dropdown.Toggle id="dropdown-version" as={StyledNavLink}>
-              v{config.version} (
-              <span className="d-none d-lg-inline">Bootstrap </span>
-              {config.bootstrapVersion.split('.').slice(0, 2).join('.')})
-            </Dropdown.Toggle>
-            <Dropdown.Menu role="menu">
-              <Dropdown.Item href="https://react-bootstrap-v3.netlify.com">
-                v0.33.1 (Bootstrap 3)
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </StyledDropdown>
           <OverlayTrigger
             placement="bottom"
             delay={{ show: 200 }}
             overlay={<Tooltip id="t-github">Github</Tooltip>}
           >
             <StyledNavLink
-              href="https://github.com/react-bootstrap/react-bootstrap"
+              href="https://github.com/chrisfactory/react-meta-state"
               target="_blank"
               rel="noopener noreferrer"
             >

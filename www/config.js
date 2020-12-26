@@ -9,9 +9,9 @@ function getIntegrity(file) {
   return `${algo}-${hash}`;
 }
 
-const bootstrapVersion = require('bootstrap/package.json').version;
+const version = require('../package.json').version;
 
-const shortVersion = bootstrapVersion.split('.').slice(0, 2).join('.');
+const shortVersion = version.split('.').slice(0, 2).join('.');
 
 const netlify =
   process.env.NETLIFY === 'true'
@@ -23,9 +23,8 @@ const netlify =
     : null;
 
 const config = {
-  bootstrapVersion,
   docsUrl: `https://getbootstrap.com/docs/${shortVersion}`,
-  version: require('../package.json').version,
+  version,
   cssHash: getIntegrity('bootstrap/dist/css/bootstrap.min.css'),
   netlify,
 };
