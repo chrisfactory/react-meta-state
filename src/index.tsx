@@ -1,3 +1,4 @@
-import useMetaState from './useMetaState';
+import creator from './useMetaState';
 
-export default useMetaState;
+const { useMetaState } = creator();
+export { useMetaState as default };

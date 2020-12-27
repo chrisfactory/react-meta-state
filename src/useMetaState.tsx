@@ -1,10 +1,13 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-function useMetaState<S = undefined>(
-  initialState: S | (() => S) | undefined = undefined,
-): [S | undefined, Dispatch<SetStateAction<S>>] {
-  const [metaState, setMetaState] = React.useState(initialState);
+const creator = function useMetaStateCreator() {
+  function useMetaState<S = undefined>(
+    initialState: S | (() => S) | undefined = undefined,
+  ): [S | undefined, Dispatch<SetStateAction<S>>] {
+    const [metaState, setMetaState] = React.useState(initialState);
+    return [metaState, setMetaState];
+  }
 
-  return [metaState, setMetaState];
-}
-export default useMetaState;
+  return { useMetaState };
+};
+export { creator as default };

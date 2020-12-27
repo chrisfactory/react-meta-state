@@ -7,9 +7,9 @@ const defaultDescriptions = require('./src/defaultPropDescriptions');
 module.exports = {
   siteMetadata: {
     title: 'React-Meta-State',
-    titleTemplate: '%s · React-Meta-State Documentation',
+    titleTemplate: '%s Documentation',
     author: 'react meta state contributors',
-    description: 'The most popular front-end framework, rebuilt for React.',
+    description: '..????.',
     url: 'https://react-meta-state.github.io',
     browsers: [
       'last 4 Chrome versions',

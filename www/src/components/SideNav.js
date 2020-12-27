@@ -2,7 +2,6 @@ import startCase from 'lodash/startCase';
 import classNames from 'classnames';
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
-import FormControl from 'react-bootstrap/FormControl';
 
 import styled from 'astroturf';
 import Button from 'react-bootstrap/Button';
@@ -99,59 +98,7 @@ const TocSubLink = styled(TocLink)`
   padding-top: 0.25rem;
 `;
 
-const gettingStarted = [
-  'introduction',
-  'why-react-bootstrap',
-  'theming',
-  'support',
-];
-
-const layout = ['grid', 'media'];
-
-const components = [
-  'alerts',
-  'accordion',
-  'badge',
-  'breadcrumb',
-  'buttons',
-  'button-group',
-  'cards',
-  'carousel',
-  'dropdowns',
-  'forms',
-  'input-group',
-  'images',
-  'figures',
-  'jumbotron',
-  'list-group',
-  'modal',
-  'navs',
-  'navbar',
-  'overlays',
-  'pagination',
-  'popovers',
-  'progress',
-  'spinners',
-  'table',
-  'tabs',
-  'tooltips',
-  'toasts',
-];
-
-const utilities = ['transitions', 'responsive-embed', 'react-overlays'];
-
-// We need to configure this
-function attachSearch(ref) {
-  if (ref && window)
-    import('docsearch.js').then(({ default: docsearch }) => {
-      docsearch({
-        apiKey: '00f98b765b687b91399288e7c4c68ce1',
-        indexName: 'react_bootstrap_v4',
-        inputSelector: `#${ref.id}`,
-        debug: process.env.NODE_ENV !== 'production', // Set debug to true if you want to inspect the dropdown
-      });
-    });
-}
+const gettingStarted = ['introduction'];
 
 function NavSection({ heading, location: { pathname }, items, path }) {
   let active = pathname.startsWith(path);
@@ -198,12 +145,6 @@ class SideNav extends React.Component {
     return (
       <SidePanel {...props}>
         <form className="py-3 d-flex align-items-center">
-          <FormControl
-            id="docs-search-input"
-            type="text"
-            placeholder="Search…"
-            ref={attachSearch}
-          />
           <MenuButton onClick={this.handleCollapse}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -232,30 +173,6 @@ class SideNav extends React.Component {
                 location={location}
                 items={gettingStarted}
               />
-              <NavSection
-                heading="Layout"
-                location={location}
-                items={layout}
-                path="/layout"
-              />
-              <NavSection
-                heading="Components"
-                location={location}
-                items={components}
-                path="/components"
-              />
-              <NavSection
-                heading="Utilities"
-                location={location}
-                items={utilities}
-                path="/utilities"
-              />
-              <NavSection
-                heading="Migrating"
-                location={location}
-                path="/migrating"
-              />
-              <NavSection heading="About" location={location} path="/about" />
             </TableOfContents>
           </OverflowWrapper>
         </Collapse>

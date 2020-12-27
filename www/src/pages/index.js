@@ -11,7 +11,6 @@ import withLayout from '../withLayout';
 
 const MastHead = styled(Jumbotron)`
   @import '../css/theme';
-
   background-color: $dark;
   padding: 0;
   color: white;
@@ -49,7 +48,6 @@ const Heading = styled('h1')`
 
 const SubHeading = styled('p')`
   composes: lead from global;
-
   line-height: 2;
   font-size: 1.6rem;
 `;

@@ -7,9 +7,8 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import styled from 'astroturf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord';
 import { faGithub } from '@fortawesome/free-brands-svg-icons/faGithub';
-
+import pkg from '../../../package.json';
 import logo from '../assets/logo.svg';
 
 const StyledNavbar = styled(Navbar).attrs({
@@ -53,12 +52,9 @@ const NAV_LINKS = [
     exact: true,
   },
   {
-    link: '/getting-started/introduction',
-    title: 'Getting Started',
-  },
-  {
-    link: '/components/alerts',
-    title: 'Components',
+    link: '/api/api',
+    title: `React Meta State ${pkg.version}`,
+    exact: true,
   },
 ];
 
@@ -101,20 +97,6 @@ function NavMain({ activePage }) {
             >
               <FontAwesomeIcon icon={faGithub} size="lg" />
               <span className="sr-only">Github</span>
-            </StyledNavLink>
-          </OverlayTrigger>
-          <OverlayTrigger
-            placement="bottom"
-            delay={{ show: 200 }}
-            overlay={<Tooltip id="t-discord">Discord</Tooltip>}
-          >
-            <StyledNavLink
-              href="https://discord.gg/reactiflux"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FontAwesomeIcon icon={faDiscord} size="lg" />
-              <span className="sr-only">Discord</span>
             </StyledNavLink>
           </OverlayTrigger>
         </Nav>
