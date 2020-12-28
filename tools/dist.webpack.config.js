@@ -6,10 +6,8 @@ module.exports = (distRoot, optimize) => ({
   entry: './src/index.tsx',
   output: {
     path: distRoot,
-    filename: optimize
-      ? 'test-test-test-meta-state.min.js'
-      : 'test-test-test-meta-state.js',
-    library: 'test-test-test-meta-state',
+    filename: optimize ? 'pock-meta-state.min.js' : 'pock-meta-state.js',
+    library: 'pock-meta-state',
     libraryTarget: 'umd',
   },
   module: {

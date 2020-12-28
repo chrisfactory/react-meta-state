@@ -1,10 +1,6 @@
 import React from 'react';
 import resolveState from '../helpers';
-/** @internal */
-export interface MetaStateServices {
-  /** @internal */
-  services: any[];
-}
+
 export type MetaStateContext = MetaStateServices;
 export type MetaState<S = undefined> = MetaStateContext & ((value: S) => void);
 
@@ -33,3 +29,9 @@ function useMetaState<S = undefined>(
   }
 }
 export { useMetaState as default };
+
+/** @internal */
+export interface MetaStateServices {
+  /** @internal */
+  services: any[];
+}
