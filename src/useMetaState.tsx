@@ -1,35 +1,34 @@
 import { useState } from 'react';
 import resolveState from './helpers';
-import { MetaService } from './services';
-
-export interface MetaStateServices {
-  /** @internal */
-  services: MetaService[];
-}
-export type MetaStateContext = MetaStateServices;
-export type MetaState<S = undefined> = MetaStateContext & ((value: S) => void);
+import { DefaultDataError } from './DataErrorService';
+import { MetaState, MetaStateContext } from './MetaState';
 
 function useMetaState<S = undefined>(
   initialState: S | (() => S) | undefined = undefined,
 ): [S | undefined, MetaState<S>] {
   const [metaState, setMetaState] = useState<MetaStateBox<S>>({
     Value: resolveState(initialState),
-    services: [{ name: 'test' }],
+    services: [],
+    ...DefaultDataError(),
   });
   function setVale(value: S) {
+    metaState.services.forEach((service) => {
+      service.OnValueChanging(value);
+    });
+
     setMetaState({
       Value: value,
-      services: [{ name: 'test' }],
+      services: [],
+      dataErrors: [],
+      hasError: false,
     });
   }
 
   return [
     metaState.Value,
-    Object.assign((v) => setVale(v), {
-      services: metaState.services,
-    }) as MetaState<S>,
+    Object.assign((v) => setVale(v), metaState) as MetaState<S>,
   ];
-  interface MetaStateBox<S = undefined> extends MetaStateServices {
+  interface MetaStateBox<S = undefined> extends MetaStateContext {
     Value: S | undefined;
   }
 }
