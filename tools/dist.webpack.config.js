@@ -7,9 +7,9 @@ module.exports = (distRoot, optimize) => ({
   output: {
     path: distRoot,
     filename: optimize
-      ? 'test-test-meta-state.min.js'
-      : 'test-test-meta-state.js',
-    library: 'test-test-meta-state',
+      ? 'test-test-test-meta-state.min.js'
+      : 'test-test-test-meta-state.js',
+    library: 'test-test-test-meta-state',
     libraryTarget: 'umd',
   },
   module: {
