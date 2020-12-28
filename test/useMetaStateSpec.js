@@ -44,8 +44,6 @@ describe('useMetaState', () => {
         result.current[1](element);
       });
       expect(result.current[0]).to.equal(element);
-      expect(result.current[2][0]).to.equal('hello');
-      expect(result.current[3][0]).to.equal('hello');
     });
   });
 });
