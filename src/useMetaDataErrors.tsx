@@ -1,4 +1,4 @@
-import { MetaStateContext } from '../useMetaState/useMetaState';
+import { MetaStateContext } from './useMetaState';
 
 function useMetaDataErrors(data: MetaStateContext) {
   return data.services;

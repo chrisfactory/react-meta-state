@@ -1,4 +1,4 @@
-import useMetaState from './useMetaState/useMetaState';
-import useMetaDataErrors from './useMetaDataErrors/useMetaDataErrors';
+import useMetaState from './useMetaState';
+import useMetaDataErrors from './useMetaDataErrors';
 
 export { useMetaState, useMetaDataErrors };

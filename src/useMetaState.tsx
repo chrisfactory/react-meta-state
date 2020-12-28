@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import resolveState from '../helpers';
+import resolveState from './helpers';
 
 export type MetaStateContext = MetaStateServices;
 export type MetaState<S = undefined> = MetaStateContext & ((value: S) => void);
