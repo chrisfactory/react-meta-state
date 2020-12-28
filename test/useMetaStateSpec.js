@@ -1,6 +1,6 @@
 /* eslint no-new-func: 0 */
 import { renderHook, act } from '@testing-library/react-hooks';
-import useMetaState from '../src/index';
+import { useMetaState } from '../src/index';
 
 describe('useMetaState', () => {
   it('Should be set the default.', () => {
