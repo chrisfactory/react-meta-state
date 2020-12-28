@@ -1,4 +1,4 @@
-import creator from './useMetaState';
+import useMetaState from './useMetaState';
+import useMetaDataErrors from './useMetaDataErrors';
 
-const { useMetaState } = creator();
-export { useMetaState as default };
+export { useMetaState, useMetaDataErrors };

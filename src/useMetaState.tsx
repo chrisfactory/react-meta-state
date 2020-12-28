@@ -1,13 +1,9 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
-const creator = function useMetaStateCreator() {
-  function useMetaState<S = undefined>(
-    initialState: S | (() => S) | undefined = undefined,
-  ): [S | undefined, Dispatch<SetStateAction<S>>] {
-    const [metaState, setMetaState] = React.useState(initialState);
-    return [metaState, setMetaState];
-  }
-
-  return { useMetaState };
-};
-export { creator as default };
+function useMetaState<S = undefined>(
+  initialState: S | (() => S) | undefined = undefined,
+): [S | undefined, (value: S) => void] {
+  const [metaState, setMetaState] = React.useState(initialState);
+  return [metaState, setMetaState];
+}
+export { useMetaState as default };
