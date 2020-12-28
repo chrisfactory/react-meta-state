@@ -1,3 +1,9 @@
+## [1.0.13](https://github.com/chrisfactory/react-meta-state/compare/v1.0.12...v1.0.13) (2020-12-28)
+
+
+
+
+
 ## [1.0.12](https://github.com/chrisfactory/react-meta-state/compare/v1.0.11...v1.0.12) (2020-12-28)
 
 

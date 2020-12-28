@@ -1,6 +1,6 @@
 {
   "name": "pock-meta-state",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "react hook for state",
   "repository": {
     "type": "git",
