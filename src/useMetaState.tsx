@@ -29,7 +29,8 @@ function useMetaState<S = undefined>(
   }
 }
 export { useMetaState as default };
-/** @internal */
+
 export interface MetaStateServices {
+  /** @internal */
   services: string[];
 }
