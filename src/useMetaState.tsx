@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import resolveState from './helpers';
+import { MetaService } from './services';
 
+export interface MetaStateServices {
+  /** @internal */
+  services: MetaService[];
+}
 export type MetaStateContext = MetaStateServices;
 export type MetaState<S = undefined> = MetaStateContext & ((value: S) => void);
 
@@ -9,12 +14,12 @@ function useMetaState<S = undefined>(
 ): [S | undefined, MetaState<S>] {
   const [metaState, setMetaState] = useState<MetaStateBox<S>>({
     Value: resolveState(initialState),
-    services: ['hello'],
+    services: [{ name: 'test' }],
   });
   function setVale(value: S) {
     setMetaState({
       Value: value,
-      services: ['hello'],
+      services: [{ name: 'test' }],
     });
   }
 
@@ -29,8 +34,3 @@ function useMetaState<S = undefined>(
   }
 }
 export { useMetaState as default };
-
-export interface MetaStateServices {
-  /** @internal */
-  services: string[];
-}
