@@ -1,14 +1,15 @@
-import { MetaService } from './MetaService';
-
-export interface DataErrorServiceHost {
-  dataErrors: any[];
-  hasError: boolean;
-}
-export type DataErrorMetaService = MetaService;
-
-export function DefaultDataError(): DataErrorServiceHost {
+export function DefaultDataError(): DataError {
   return {
     dataErrors: [],
     hasError: false,
   };
 }
+export interface DataError {
+  dataErrors: ReadonlyArray<any>;
+  hasError: boolean;
+}
+export interface ReadOnlyDataError {
+  readonly dataErrors: ReadonlyArray<any>;
+  readonly hasError: boolean;
+}
+export type GroupingDataError = ReadOnlyDataError;

@@ -33,7 +33,7 @@ describe('useMetaState', () => {
   it('Should be get services.', () => {
     const { result } = renderHook(() => {
       const [getV, setV] = useMetaState();
-      useMetaDataErrors(setV);
+      useMetaDataErrors([setV]);
       return [getV, setV];
     });
 
