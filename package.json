@@ -1,5 +1,5 @@
 {
-  "name": "pock-meta-state",
+  "name": "react-meta-state",
   "version": "1.0.1-alpha.0",
   "description": "react hook for state",
   "repository": {
