@@ -1,5 +1,5 @@
 /* eslint no-new-func: 0 */
-import { Required } from '../src/Rules';
+import { Required } from '../src/index';
 
 const dataError = ['error result'];
 describe('Rules.Required', () => {

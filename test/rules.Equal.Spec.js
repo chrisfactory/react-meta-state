@@ -1,5 +1,5 @@
 /* eslint no-new-func: 0 */
-import { Equal } from '../src/Rules';
+import { Equal } from '../src/index';
 
 const dataError = ['error result'];
 describe('Rules.Equal', () => {

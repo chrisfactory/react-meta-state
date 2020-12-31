@@ -1,5 +1,5 @@
 /* eslint no-new-func: 0 */
-import { InScope } from '../src/Rules';
+import { InScope } from '../src/index';
 
 describe('Rules.InScope', () => {
   it('Should be include in scope.', () => {
