@@ -8,7 +8,7 @@ export type Selector =
   | 'loaded'
   | '!loaded';
 export type Scope = Selector[] | Selector;
-export const defaultScope: Scope = ['*', '!init'];
+export const defaultScope: Scope = ['*', '!loaded'];
 
 export function InScope(scope: Scope, selector: string): boolean {
   if (selector === '*') return true;
@@ -63,13 +63,13 @@ export function Required(
     },
   };
 }
-export function Equale(equalWith: any, failedDatas: Datas): RuleBuilderElement;
-export function Equale(
+export function Equal(equalWith: any, failedDatas: Datas): RuleBuilderElement;
+export function Equal(
   equalWith: any,
   failedDatas: Datas,
   scope: Scope,
 ): RuleBuilderElement;
-export function Equale(
+export function Equal(
   equalWith: any,
   failedDatas: Datas,
   scope: Scope = defaultScope,
@@ -82,16 +82,16 @@ export function Equale(
     },
   };
 }
-export function NotEquale(
+export function NotEqual(
   equalWith: any,
   failedDatas: Datas,
 ): RuleBuilderElement;
-export function NotEquale(
+export function NotEqual(
   equalWith: any,
   failedDatas: Datas,
   scope: Scope,
 ): RuleBuilderElement;
-export function NotEquale(
+export function NotEqual(
   equalWith: any,
   failedDatas: Datas,
   scope: Scope = defaultScope,
