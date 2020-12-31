@@ -49,6 +49,15 @@ export interface RuleBuilder<T extends (...args: any[]) => any> {
 export interface RuleBuilderElement {
   check: (testWith: any, selector: Selector) => RuleResult;
 }
+
+export function RuleDependences<
+  T extends (...args: any[]) => RuleBuilderElement
+>(ruleDefinition: T): RuleBuilder<T> {
+  return {
+    check: (testWith, selector, dataArg) =>
+      ruleDefinition(...dataArg).check(testWith, selector),
+  };
+}
 export function Required(failedDatas: Datas): RuleBuilderElement;
 export function Required(failedDatas: Datas, scope: Scope): RuleBuilderElement;
 export function Required(
@@ -102,14 +111,6 @@ export function NotEqual(
       if (equalWith === testWith) return { datas: failedDatas };
       return { datas: [] };
     },
-  };
-}
-export function RuleDependences<
-  T extends (...args: any[]) => RuleBuilderElement
->(ruleDefinition: T): RuleBuilder<T> {
-  return {
-    check: (testWith, selector, dataArg) =>
-      ruleDefinition(...dataArg).check(testWith, selector),
   };
 }
 
