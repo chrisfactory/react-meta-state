@@ -93,3 +93,5 @@ typings/
 
 # Generated types
 /types
+
+package-lock.json
