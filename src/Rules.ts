@@ -39,7 +39,7 @@ export type ArgumentTypes<F extends (...args: any[]) => any> = F extends (
 ) => any
   ? A
   : never;
-export interface RuleBuilder<T extends (...args: any[]) => any> {
+export interface RuleBuilderDependencies<T extends (...args: any[]) => any> {
   check: (
     testWith: any,
     selector: Selector,
@@ -52,7 +52,7 @@ export interface RuleBuilderElement {
 
 export function RuleDependences<
   T extends (...args: any[]) => RuleBuilderElement
->(ruleDefinition: T): RuleBuilder<T> {
+>(ruleDefinition: T): RuleBuilderDependencies<T> {
   return {
     check: (testWith, selector, dataArg) =>
       ruleDefinition(...dataArg).check(testWith, selector),

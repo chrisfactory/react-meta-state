@@ -1,4 +1,3 @@
-import { MetaStateContext, MetaState } from './MetaState';
 import useMetaState from './useMetaState';
 import useMetaDataErrors from './useMetaDataErrors';
 import {
@@ -15,12 +14,12 @@ import {
   RuleResult,
   Datas,
   Data,
-  RuleBuilder,
+  RuleBuilderDependencies,
   RuleBuilderElement,
   ArgumentTypes,
 } from './Rules';
 
-export { MetaStateContext, useMetaState, useMetaDataErrors };
+export { useMetaState, useMetaDataErrors };
 export {
   InScope,
   RuleDependences,
@@ -39,8 +38,6 @@ export type {
   Data,
   Datas,
   RuleResult,
-  RuleBuilder,
+  RuleBuilderDependencies,
   RuleBuilderElement,
-  //
-  MetaState,
 };

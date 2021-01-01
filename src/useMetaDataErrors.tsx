@@ -1,22 +1,16 @@
 import { useState } from 'react';
-import { DefaultDataError, GroupingDataError } from './DataErrorService';
-import { MetaStateBox, MetaStateContext } from './MetaState';
+import { IDataErrorService } from './DataErrorService';
 
-export type MetaStateList = ReadonlyArray<MetaStateContext>;
+export type DataErrorServices = ReadonlyArray<IDataErrorService>;
 
-function OnValueChanging<S>(value: S, box: MetaStateBox<S>) {
-  box.dataErrors = [value];
-}
-function useMetaDataErrors(metaStates: MetaStateList): GroupingDataError {
-  const [dataErrorGroup] = useState<GroupingDataError>({
-    ...DefaultDataError(),
-  });
-  metaStates.forEach((metaState) => {
-    metaState.addService({ name: 'l', OnValueChanging });
-    // metaState.services = [{name:"l", OnValueChanging:OnValueChanging}]
-  });
+function useMetaDataErrors(metaStates: DataErrorServices) {
+  // const [dataErrorGroup] = useState<GroupingDataError>({
+  //   hasErrors: false,
+  //   dataErrors: [],
+  // });
+  const [services, SetServices] = useState(metaStates);
 
-  return dataErrorGroup;
+  return [services, SetServices];
 }
 
 export { useMetaDataErrors as default };

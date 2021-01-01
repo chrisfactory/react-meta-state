@@ -1,69 +1,97 @@
-import { useState } from 'react';
-import resolveState from './helpers';
-import { DefaultDataError, ReadOnlyDataError } from './DataErrorService';
-import {
-  MetaService,
-  MetaState,
-  MetaStateBox,
-  MetaStateContext,
-} from './MetaState';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { resolveSetStateAction, resolveState } from './helpers';
+import MergeBuilder from './MergeBuilder';
+import { IMetaService } from './serviceBase';
 
-function useMetaState<S = undefined>(): [
-  S | undefined,
-  MetaState<S | undefined>,
-];
-function useMetaState<S>(initialState: S | (() => S)): [S, MetaState<S>];
+function useMetaState<T1 extends IMetaService, S = undefined>(
+  s1: T1,
+): [S | undefined, Dispatch<SetStateAction<S | undefined>> & T1];
+function useMetaState<
+  T1 extends IMetaService,
+  T2 extends IMetaService,
+  S = undefined
+>(
+  s1: T1,
+  s2: T2,
+): [S | undefined, Dispatch<SetStateAction<S | undefined>> & T1 & T2];
+function useMetaState<
+  T1 extends IMetaService,
+  T2 extends IMetaService,
+  T3 extends IMetaService,
+  S = undefined
+>(
+  s1: T1,
+  s2: T2,
+  s3: T3,
+): [S | undefined, Dispatch<SetStateAction<S | undefined>> & T1 & T2 & T3];
+function useMetaState<
+  T1 extends IMetaService,
+  T2 extends IMetaService,
+  T3 extends IMetaService,
+  T4 extends IMetaService,
+  S = undefined
+>(
+  s1: T1,
+  s2: T2,
+  s3: T3,
+  s4: T4,
+): [S | undefined, Dispatch<SetStateAction<S | undefined>> & T1 & T2 & T3 & T4];
+function useMetaState<T1 extends IMetaService, S>(
+  initialState: S | (() => S),
+  s1: T1,
+): [S, Dispatch<SetStateAction<S>> & T1];
+function useMetaState<T1 extends IMetaService, T2 extends IMetaService, S>(
+  initialState: S | (() => S),
+  s1: T1,
+  s2: T2,
+): [S, Dispatch<SetStateAction<S>> & T1 & T2];
+function useMetaState<
+  T1 extends IMetaService,
+  T2 extends IMetaService,
+  T3 extends IMetaService,
+  S
+>(
+  initialState: S | (() => S),
+  s1: T1,
+  s2: T2,
+  s3: T3,
+): [S, Dispatch<SetStateAction<S>> & T1 & T2 & T3];
+function useMetaState<
+  T1 extends IMetaService,
+  T2 extends IMetaService,
+  T3 extends IMetaService,
+  T4 extends IMetaService,
+  S
+>(
+  initialState: S | (() => S),
+  s1: T1,
+  s2: T2,
+  s3: T3,
+  s4: T4,
+): [S, Dispatch<SetStateAction<S>> & T1 & T2 & T3 & T4];
 
 function useMetaState<S = undefined>(
   initialState: S | (() => S) | undefined = undefined,
-): [S | undefined, MetaState<S>] {
-  function getDefaultMetaState(): MetaStateBox<S | undefined> {
-    const result: MetaStateBox<S | undefined> = {
-      Value: resolveState(initialState),
-      services: [],
-      ...DefaultDataError(),
-    };
-    return result;
-  }
+  ...args: IMetaService[]
+) {
+  const [box, setBox] = useState<Box<S | undefined>>({
+    value: resolveState(initialState),
+    services: args,
+  });
 
-  const [metaState, setMetaState] = useState<MetaStateBox<S | undefined>>(
-    getDefaultMetaState,
-  );
-
-  function setVale(value: S | undefined) {
-    const newBox: MetaStateBox<S | undefined> = { ...metaState, Value: value };
-
-    metaState.services.forEach((service) => {
-      service.OnValueChanging(value, newBox);
+  const setValue: Dispatch<SetStateAction<S | undefined>> = (
+    value: SetStateAction<S | undefined>,
+  ) => {
+    const val = resolveSetStateAction(value, box.value);
+    box.services.forEach((service) => {
+      service.Refresh(val, 'changed');
     });
-
-    setMetaState(newBox);
+    setBox({ value: val, services: box.services });
+  };
+  return [box.value, Object.assign(setValue, MergeBuilder(box.services))];
+  interface Box<S> {
+    value: S | undefined;
+    services: IMetaService[];
   }
-  function addService(service: MetaService) {
-    if (metaState.services.length === 0) {
-      setMetaState({
-        Value: metaState.Value,
-        services: [service],
-        dataErrors: [],
-        hasError: false,
-      });
-    }
-  }
-
-  function buildMetaState(): MetaState<S | undefined> {
-    const setter: (value: S | undefined) => void = setVale;
-    const dataError: ReadOnlyDataError = {
-      dataErrors: metaState.dataErrors,
-      hasError: metaState.hasError,
-    };
-    const context: MetaStateContext = { addService };
-    const result: MetaState<S | undefined> = Object.assign(
-      setter,
-      dataError,
-      context,
-    );
-    return result;
-  }
-  return [metaState.Value, buildMetaState()];
 }
 export { useMetaState as default };
