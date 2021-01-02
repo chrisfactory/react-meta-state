@@ -3,11 +3,11 @@ module.exports = (distRoot, optimize) => ({
   optimization: {
     minimize: !!optimize,
   },
-  entry: './src/index.tsx',
+  entry: './src/index.ts',
   output: {
     path: distRoot,
-    filename: optimize ? 'pock-meta-state.min.js' : 'pock-meta-state.js',
-    library: 'pock-meta-state',
+    filename: optimize ? 'react-meta-state.min.js' : 'react-meta-state.js',
+    library: 'react-meta-state',
     libraryTarget: 'umd',
   },
   module: {
