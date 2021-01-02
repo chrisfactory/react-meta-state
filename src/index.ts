@@ -21,6 +21,11 @@ import DataErrorService from './Services.DataErrorService';
 import { IDataErrorService } from './Services.IDataErrorService';
 import DataErrorServiceDependencies from './Services.DataErrorServiceDependencies';
 import { DataError } from './Services.DataError';
+// Services.DataWarnings
+import DataWarningService from './Services.DataWarningService';
+import { IDataWarningService } from './Services.IDataWarningService';
+import DataWarningServiceDependencies from './Services.DataWarningServiceDependencies';
+import { DataWarning } from './Services.DataWarning';
 // hooks
 import useMetaState from './useMetaState';
 import useMetaDataErrors from './useMetaDataErrors';
@@ -45,6 +50,10 @@ export type { IDataErrorService };
 export { DataErrorService };
 export { DataErrorServiceDependencies };
 export { DataError };
-
+// Services.DataWarnings
+export type { IDataWarningService };
+export { DataWarningService };
+export { DataWarningServiceDependencies };
+export { DataWarning };
 // hooks
 export { useMetaState, useMetaDataErrors };
