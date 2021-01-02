@@ -1,13 +1,5 @@
-import { RuleBuilderElement } from './Rules';
-import { IMetaService } from './serviceBase';
-
-export interface ReadOnlyDataError {
-  dataErrors: ReadonlyArray<any>;
-  hasErrors: boolean;
-}
-export type GroupingDataError = ReadOnlyDataError;
-
-export interface IDataErrorService extends ReadOnlyDataError, IMetaService {}
+import { IDataErrorService } from './Services.IDataErrorService';
+import { RuleBuilderElement } from './Rules.RuleBuilder';
 
 class DataErrorService implements IDataErrorService {
   private readonly _rule: RuleBuilderElement;
@@ -29,7 +21,4 @@ class DataErrorService implements IDataErrorService {
     return true;
   }
 }
-
-export function DataError(rule: RuleBuilderElement): IDataErrorService {
-  return new DataErrorService(rule);
-}
+export { DataErrorService as default };

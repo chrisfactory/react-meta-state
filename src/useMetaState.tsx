@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { resolveSetStateAction, resolveState } from './helpers';
-import MergeBuilder from './MergeBuilder';
-import { IMetaService } from './serviceBase';
+import { resolveSetStateAction, resolveState, MergeBuilder } from './helpers';
+import { IMetaService } from './Services.IMetaService';
 
 function useMetaState<T1 extends IMetaService, S = undefined>(
   s1: T1,
@@ -83,11 +82,13 @@ function useMetaState<S = undefined>(
     value: SetStateAction<S | undefined>,
   ) => {
     const val = resolveSetStateAction(value, box.value);
-    box.services.forEach((service) => {
+    const srv = args;
+    srv.forEach((service) => {
       service.Refresh(val, 'changed');
     });
-    setBox({ value: val, services: box.services });
+    setBox({ value: val, services: srv });
   };
+
   return [box.value, Object.assign(setValue, MergeBuilder(box.services))];
   interface Box<S> {
     value: S | undefined;

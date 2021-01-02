@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IDataErrorService } from './DataErrorService';
+import { IDataErrorService } from './Services.IDataErrorService';
 
 export type DataErrorServices = ReadonlyArray<IDataErrorService>;
 
