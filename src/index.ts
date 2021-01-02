@@ -26,10 +26,11 @@ import useMetaState from './useMetaState';
 import useMetaDataErrors from './useMetaDataErrors';
 
 // Selector
-export { Selector, Scope, defaultScope, InScope };
+export { defaultScope, InScope };
+export type { Selector, Scope };
 // rules
-export { Data, Datas, RuleResult };
-export {
+export type { Data, Datas, RuleResult };
+export type {
   RuleBuilderElementDep,
   RuleArgumentDependencyTypes,
   RuleBuilderDependencies,
@@ -38,10 +39,10 @@ export {
 export { RuleDependencies, ConcatRules, StepRules };
 export { Required, NotEqual, Equal };
 // Services
-export { IMetaService };
+export type { IMetaService };
 // Services.DataErrors
+export type { IDataErrorService };
 export { DataErrorService };
-export { IDataErrorService };
 export { DataErrorServiceDependencies };
 export { DataError };
 
