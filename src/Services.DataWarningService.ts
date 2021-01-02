@@ -14,7 +14,7 @@ class DataWarningService implements IDataWarningService {
 
   hasWarnings = false;
 
-  Refresh<S>(value: S, selector: string): boolean {
+  refresh<S>(value: S, selector: string): boolean {
     const ruleResult = this._rule.check(value, selector);
     this.dataWarnings = ruleResult.datas;
     this.hasWarnings = ruleResult.datas.length > 0;

@@ -1,6 +1,6 @@
 /* eslint no-new-func: 0 */
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useMetaState, useMetaDataErrors } from '../src/index';
+import { useMetaState, useDataErrorGroup } from '../src/index';
 
 describe('useMetaState', () => {
   it('Should be set the default.', () => {
@@ -33,7 +33,7 @@ describe('useMetaState', () => {
   it('Should be get services.', () => {
     const { result } = renderHook(() => {
       const [getV, setV] = useMetaState();
-      useMetaDataErrors([setV]);
+      useDataErrorGroup([setV]);
       return [getV, setV];
     });
 

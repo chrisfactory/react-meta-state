@@ -16,6 +16,8 @@ import { ConcatRules } from './Rules.ConcatRules';
 import { StepRules } from './Rules.StepRules';
 // Services
 import { IMetaService } from './Services.IMetaService';
+// Service.Interact
+import { InteractActions, Interact } from './Services.InteractMetaService';
 // Services.DataErrors
 import DataErrorService from './Services.DataErrorService';
 import { IDataErrorService } from './Services.IDataErrorService';
@@ -28,7 +30,7 @@ import DataWarningServiceDependencies from './Services.DataWarningServiceDepende
 import { DataWarning } from './Services.DataWarning';
 // hooks
 import useMetaState from './useMetaState';
-import useMetaDataErrors from './useMetaDataErrors';
+import useDataErrorGroup from './useDataErrorGroup';
 
 // Selector
 export { defaultScope, InScope };
@@ -45,6 +47,8 @@ export { RuleDependencies, ConcatRules, StepRules };
 export { Required, NotEqual, Equal };
 // Services
 export type { IMetaService };
+// Service.Interact
+export type { InteractActions, Interact };
 // Services.DataErrors
 export type { IDataErrorService };
 export { DataErrorService };
@@ -56,4 +60,4 @@ export { DataWarningService };
 export { DataWarningServiceDependencies };
 export { DataWarning };
 // hooks
-export { useMetaState, useMetaDataErrors };
+export { useMetaState, useDataErrorGroup };
