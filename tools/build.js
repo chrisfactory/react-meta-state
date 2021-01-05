@@ -17,7 +17,10 @@ const distRoot = path.join(libRoot, 'dist');
 const cjsRoot = path.join(libRoot, 'cjs');
 const esRoot = path.join(libRoot, 'esm');
 
-const clean = () => fse.existsSync(libRoot) && fse.removeSync(libRoot);
+const clean = () => {
+  if (fse.existsSync(typesRoot)) fse.removeSync(typesRoot);
+  if (fse.existsSync(libRoot)) fse.removeSync(libRoot);
+};
 
 const step = (name, fn) => async () => {
   console.log(cyan('Building: ') + green(name));
@@ -32,7 +35,7 @@ const has = (t) => !targets.length || targets.includes(t);
 
 const buildTypes = step('generating .d.ts', () => shell(`yarn build-types`));
 
-const copyTypes = (dest) => shell(`cpy ${typesRoot}/*.d.ts ${dest}`);
+const copyTypes = (dest) => fse.copy(typesRoot, dest);
 
 const babel = (outDir, envName) =>
   shell(
