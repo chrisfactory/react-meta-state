@@ -14,12 +14,5 @@ function resolveSetStateAction<S = undefined>(
     return (state as (prevState: S) => S)(prevState);
   return state as S | undefined;
 }
-function MergeBuilder(datas: any[]) {
-  let resut: any;
-  datas.forEach((element) => {
-    resut = { ...resut, ...element };
-  });
-  return resut;
-}
 
-export { resolveState, resolveSetStateAction, MergeBuilder };
+export { resolveState, resolveSetStateAction };

@@ -1,9 +1,7 @@
-import {
-  RuleBuilderDependencies,
-  RuleBuilderElementDep,
-} from './Rules.RuleBuilder';
+import { RuleElementDependencies } from '../RuleElementDependencies';
+import { RuleBuilderDependencies } from './RuleBuilderDependencies';
 
-function RuleDependencies<T extends RuleBuilderElementDep>(
+function RuleDependencies<T extends RuleElementDependencies>(
   ruleDefinition: T,
 ): RuleBuilderDependencies<T> {
   return {

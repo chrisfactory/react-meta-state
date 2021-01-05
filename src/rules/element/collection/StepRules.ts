@@ -1,15 +1,12 @@
-import { RuleBuilderElement } from './Rules.RuleBuilder';
-import { defaultScope, InScope, Scope } from './Selector';
+import { RuleElement } from '../RuleElement';
+import { defaultScope, InScope, Scope } from '../../../Selector';
 
-export function StepRules(rules: RuleBuilderElement[]): RuleBuilderElement;
+export function StepRules(rules: RuleElement[]): RuleElement;
+export function StepRules(rules: RuleElement[], scope: Scope): RuleElement;
 export function StepRules(
-  rules: RuleBuilderElement[],
-  scope: Scope,
-): RuleBuilderElement;
-export function StepRules(
-  rules: RuleBuilderElement[],
+  rules: RuleElement[],
   scope: Scope = defaultScope,
-): RuleBuilderElement {
+): RuleElement {
   return {
     check: (testWith, selector) => {
       if (!InScope(scope, selector)) return { datas: [] };

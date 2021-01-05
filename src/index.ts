@@ -1,36 +1,46 @@
 // Selector
 import { Selector, Scope, defaultScope, InScope } from './Selector';
 // rules
-import {
-  RuleBuilderElementDep,
-  RuleArgumentDependencyTypes,
-  RuleBuilderDependencies,
-  RuleBuilderElement,
-} from './Rules.RuleBuilder';
-import { Data, Datas, RuleResult } from './Rules.RuleResult';
-import RuleDependencies from './Rules.RuleDependencies';
-import { Required } from './Rules.Required';
-import { NotEqual } from './Rules.NotEqual';
-import { Equal } from './Rules.Equal';
-import { ConcatRules } from './Rules.ConcatRules';
-import { StepRules } from './Rules.StepRules';
+import { ConcatRules } from './rules/element/collection/ConcatRules';
+import { Equal } from './rules/element/item/Equal';
+import { NotEqual } from './rules/element/item/NotEqual';
+import { Required } from './rules/element/item/Required';
+import { RuleArgumentDependencyTypes } from './rules/element/dependencies/RuleArgumentDependencyTypes';
+import { RuleBuilderDependencies } from './rules/element/dependencies/RuleBuilderDependencies';
+import { RuleElement } from './rules/element/RuleElement';
+import { RuleElementDependencies } from './rules/element/RuleElementDependencies';
+import RuleBuilderService from './rules/service/RuleBuilderService';
+import RuleBuilderDependenciesService from './rules/service/RuleBuilderDependenciesService';
+import RuleBuilderElementService from './rules/service/RuleBuilderElementService';
+import ServiceResolver from './rules/service/RuleServiceResolver';
+import RuleDependencies from './rules/element/dependencies/RuleDependencies';
+import { Data, Datas, RuleResult } from './rules/RuleResult';
+import { StepRules } from './rules/element/collection/StepRules';
+
 // Services
-import { IMetaService } from './Services.IMetaService';
-// Service.Interact
-import { InteractActions, Interact } from './Services.InteractMetaService';
+import {
+  IInteractData,
+  IServiceDescriptor,
+  IServiceInteraction,
+  IServiceInteractionFactory,
+  IServiceResultFactory,
+  MetaService,
+} from './services/IServiceDescriptor';
+import { ServiceResult } from './services/ServiceResult';
+// Services.Interact
 // Services.DataErrors
-import DataErrorService from './Services.DataErrorService';
-import { IDataErrorService } from './Services.IDataErrorService';
-import DataErrorServiceDependencies from './Services.DataErrorServiceDependencies';
-import { DataError } from './Services.DataError';
+import { DataError } from './services/data.error/DataError';
+import DataErrorServiceResultFactory from './services/data.error/DataErrorServiceResultFactory';
+import { IDataError } from './services/data.error/IDataError';
+import { IDataErrorInteraction } from './services/data.error/IDataErrorInteraction';
 // Services.DataWarnings
-import DataWarningService from './Services.DataWarningService';
-import { IDataWarningService } from './Services.IDataWarningService';
-import DataWarningServiceDependencies from './Services.DataWarningServiceDependencies';
-import { DataWarning } from './Services.DataWarning';
+import { DataWarning } from './services/data.warning/DataWarning';
+import DataWarningServiceResultFactory from './services/data.warning/DataWarningServiceResultFactory';
+import { IDataWarning } from './services/data.warning/IDataWarning';
+import { IDataWarningInteraction } from './services/data.warning/IDataWarningInteraction';
 // hooks
 import useMetaState from './useMetaState';
-import useDataErrorGroup from './useDataErrorGroup';
+import useDataErrorGroup, { IDataErrorGroup } from './useDataErrorGroup';
 
 // Selector
 export { defaultScope, InScope };
@@ -38,26 +48,41 @@ export type { Selector, Scope };
 // rules
 export type { Data, Datas, RuleResult };
 export type {
-  RuleBuilderElementDep,
+  RuleElementDependencies as RuleBuilderElementDependencies,
   RuleArgumentDependencyTypes,
   RuleBuilderDependencies,
-  RuleBuilderElement,
+  RuleElement as RuleBuilderElement,
+  RuleBuilderService,
+  RuleBuilderDependenciesService,
+  RuleBuilderElementService,
 };
-export { RuleDependencies, ConcatRules, StepRules };
+export { ServiceResolver, RuleDependencies, ConcatRules, StepRules };
 export { Required, NotEqual, Equal };
 // Services
-export type { IMetaService };
+export type {
+  IServiceDescriptor,
+  IServiceResultFactory,
+  MetaService,
+  ServiceResult,
+};
 // Service.Interact
-export type { InteractActions, Interact };
+export type { IServiceInteractionFactory, IServiceInteraction, IInteractData };
 // Services.DataErrors
-export type { IDataErrorService };
-export { DataErrorService };
-export { DataErrorServiceDependencies };
+export type {
+  DataErrorServiceResultFactory,
+  IDataError,
+  IDataErrorInteraction as IDataErrorIneraction,
+};
 export { DataError };
-// Services.DataWarnings
-export type { IDataWarningService };
-export { DataWarningService };
-export { DataWarningServiceDependencies };
+// Services.Warnings
+export type {
+  DataWarningServiceResultFactory,
+  IDataWarning,
+  IDataWarningInteraction as IDataWarningIneraction,
+};
 export { DataWarning };
+// Services.DataWarnings
+
 // hooks
 export { useMetaState, useDataErrorGroup };
+export type { IDataErrorGroup };

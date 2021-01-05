@@ -1,26 +1,28 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { resolveSetStateAction, resolveState, MergeBuilder } from './helpers';
-import { IMetaService } from './Services.IMetaService';
-import { Interact } from './Services.InteractMetaService';
+import { resolveSetStateAction, resolveState } from './helpers';
+import { IInteractData, MetaService } from './services/IServiceDescriptor';
+import { ServiceResult } from './services/ServiceResult';
 
-function useMetaState<T1 extends IMetaService, S = undefined>(
+function useMetaState<T1 extends MetaService, S = undefined>(
   s1: T1,
-): [S | undefined, Dispatch<SetStateAction<S | undefined>> & Interact<T1>];
+): [S | undefined, Dispatch<SetStateAction<S | undefined>> & ServiceResult<T1>];
 function useMetaState<
-  T1 extends IMetaService,
-  T2 extends IMetaService,
+  T1 extends MetaService,
+  T2 extends MetaService,
   S = undefined
 >(
   s1: T1,
   s2: T2,
 ): [
   S | undefined,
-  Dispatch<SetStateAction<S | undefined>> & Interact<T1> & Interact<T2>,
+  Dispatch<SetStateAction<S | undefined>> &
+    ServiceResult<T1> &
+    ServiceResult<T2>,
 ];
 function useMetaState<
-  T1 extends IMetaService,
-  T2 extends IMetaService,
-  T3 extends IMetaService,
+  T1 extends MetaService,
+  T2 extends MetaService,
+  T3 extends MetaService,
   S = undefined
 >(
   s1: T1,
@@ -29,15 +31,15 @@ function useMetaState<
 ): [
   S | undefined,
   Dispatch<SetStateAction<S | undefined>> &
-    Interact<T1> &
-    Interact<T2> &
-    Interact<T3>,
+    ServiceResult<T1> &
+    ServiceResult<T2> &
+    ServiceResult<T3>,
 ];
 function useMetaState<
-  T1 extends IMetaService,
-  T2 extends IMetaService,
-  T3 extends IMetaService,
-  T4 extends IMetaService,
+  T1 extends MetaService,
+  T2 extends MetaService,
+  T3 extends MetaService,
+  T4 extends MetaService,
   S = undefined
 >(
   s1: T1,
@@ -47,24 +49,24 @@ function useMetaState<
 ): [
   S | undefined,
   Dispatch<SetStateAction<S | undefined>> &
-    Interact<T1> &
-    Interact<T2> &
-    Interact<T3> &
-    Interact<T4>,
+    ServiceResult<T1> &
+    ServiceResult<T2> &
+    ServiceResult<T3> &
+    ServiceResult<T4>,
 ];
-function useMetaState<T1 extends IMetaService, S>(
+function useMetaState<T1 extends MetaService, S>(
   initialState: S | (() => S),
   s1: T1,
-): [S, Dispatch<SetStateAction<S>> & Interact<T1>];
-function useMetaState<T1 extends IMetaService, T2 extends IMetaService, S>(
+): [S, Dispatch<SetStateAction<S>> & ServiceResult<T1>];
+function useMetaState<T1 extends MetaService, T2 extends MetaService, S>(
   initialState: S | (() => S),
   s1: T1,
   s2: T2,
-): [S, Dispatch<SetStateAction<S>> & Interact<T1> & Interact<T2>];
+): [S, Dispatch<SetStateAction<S>> & ServiceResult<T1> & ServiceResult<T2>];
 function useMetaState<
-  T1 extends IMetaService,
-  T2 extends IMetaService,
-  T3 extends IMetaService,
+  T1 extends MetaService,
+  T2 extends MetaService,
+  T3 extends MetaService,
   S
 >(
   initialState: S | (() => S),
@@ -73,13 +75,16 @@ function useMetaState<
   s3: T3,
 ): [
   S,
-  Dispatch<SetStateAction<S>> & Interact<T1> & Interact<T2> & Interact<T3>,
+  Dispatch<SetStateAction<S>> &
+    ServiceResult<T1> &
+    ServiceResult<T2> &
+    ServiceResult<T3>,
 ];
 function useMetaState<
-  T1 extends IMetaService,
-  T2 extends IMetaService,
-  T3 extends IMetaService,
-  T4 extends IMetaService,
+  T1 extends MetaService,
+  T2 extends MetaService,
+  T3 extends MetaService,
+  T4 extends MetaService,
   S
 >(
   initialState: S | (() => S),
@@ -90,59 +95,76 @@ function useMetaState<
 ): [
   S,
   Dispatch<SetStateAction<S>> &
-    Interact<T1> &
-    Interact<T2> &
-    Interact<T3> &
-    Interact<T4>,
+    ServiceResult<T1> &
+    ServiceResult<T2> &
+    ServiceResult<T3> &
+    ServiceResult<T4>,
 ];
 
 function useMetaState<S = undefined>(
   initialState: S | (() => S) | undefined = undefined,
-  ...args: IMetaService[]
+  ...args: ReadonlyArray<MetaService>
 ) {
+  function extractDefaultDataValue(): any {
+    const srvices = args;
+    let finalResult: any = {};
+    srvices.forEach((service) => {
+      finalResult = { ...finalResult, ...service.resultFactory.default };
+    });
+    return finalResult;
+  }
   const [box, setBox] = useState<Box<S | undefined>>({
     value: resolveState(initialState),
-    services: args,
+    data: extractDefaultDataValue(),
   });
 
   const setValue: Dispatch<SetStateAction<S | undefined>> = (
     value: SetStateAction<S | undefined>,
   ) => {
     const val = resolveSetStateAction(value, box.value);
+    const srvices = args;
+    const resultHash: any[] = [];
+    let finalResult: any = {};
+    srvices.forEach((service) => {
+      const id = service.resultFactory.identifier;
+      const result = service.resultFactory.getResult(
+        resultHash[id],
+        val,
+        'changed',
+      );
+      resultHash[id] = result;
+      finalResult = { ...finalResult, ...result };
+    });
+    setBox({ value: val, data: finalResult });
+  };
+
+  let lastDataValue: any;
+  function SetFromInteract(data: any) {
+    if (!lastDataValue) lastDataValue = box.data;
+    lastDataValue = { ...lastDataValue, ...data };
+    setBox({ value: box.value, data: lastDataValue });
+  }
+  function Wrap(): any {
+    let finalResult: any = box.data;
     const srv = args;
     srv.forEach((service) => {
-      service.refresh(val, 'changed');
-    });
-    setBox({ value: val, services: srv });
-  };
-  function WrapInteract(services: IMetaService[]): Interact<IMetaService>[] {
-    const interactableServices: Interact<IMetaService>[] = [];
-    services.forEach((service) => {
-      const interactable: Interact<IMetaService> = {
-        interact: (s) => {
-          const refBox = box;
-          const idx = refBox.services.findIndex(
-            (original) => original === service,
-          );
-          service.refresh(refBox.value, s);
-          refBox.services[idx] = service;
-          setBox({ value: refBox.value, services: refBox.services });
-          return service;
-        },
-        ...service,
+      const interactRequest: IInteractData<S> = {
+        interactCallback: SetFromInteract,
+        value: box.value,
+        services: args,
       };
-      interactableServices.push(interactable);
+      const result = service.resultFactory.getInteraction(
+        () => interactRequest,
+      );
+      finalResult = { ...finalResult, ...result };
     });
-    return interactableServices;
+    return finalResult;
   }
 
-  return [
-    box.value,
-    Object.assign(setValue, MergeBuilder(WrapInteract(box.services))),
-  ];
+  return [box.value, Object.assign(setValue, Wrap())];
   interface Box<S> {
     value: S | undefined;
-    services: IMetaService[];
+    data: any;
   }
 }
 export { useMetaState as default };

@@ -1,21 +1,18 @@
-import { RuleBuilderElement } from './Rules.RuleBuilder';
-import { Datas } from './Rules.RuleResult';
-import { defaultScope, InScope, Scope } from './Selector';
+import { RuleElement } from '../RuleElement';
+import { Datas } from '../../RuleResult';
+import { defaultScope, InScope, Scope } from '../../../Selector';
 
-export function NotEqual(
-  notEqualWith: any,
-  failedDatas: Datas,
-): RuleBuilderElement;
+export function NotEqual(notEqualWith: any, failedDatas: Datas): RuleElement;
 export function NotEqual(
   notEqualWith: any,
   failedDatas: Datas,
   scope: Scope,
-): RuleBuilderElement;
+): RuleElement;
 export function NotEqual(
   notEqualWith: any,
   failedDatas: Datas,
   scope: Scope = defaultScope,
-): RuleBuilderElement {
+): RuleElement {
   return {
     check: (testWith, selector) => {
       if (!InScope(scope, selector)) return { datas: [] };
