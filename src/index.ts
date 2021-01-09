@@ -22,7 +22,6 @@ import {
   IInteractData,
   IServiceDescriptor,
   IServiceInteraction,
-  IServiceInteractionFactory,
   IDataProducerService,
   MetaService,
 } from './services/IServiceDescriptor';
@@ -66,7 +65,7 @@ export type {
   ServiceResult,
 };
 // Service.Interact
-export type { IServiceInteractionFactory, IServiceInteraction, IInteractData };
+export type { IServiceInteraction, IInteractData };
 // Services.DataErrors
 export type {
   DataErrorService,

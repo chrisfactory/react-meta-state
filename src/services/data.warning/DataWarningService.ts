@@ -3,15 +3,12 @@ import { IDataWarning } from './IDataWarning';
 import { IDataWarningInteraction } from './IDataWarningInteraction';
 import {
   IInteractData,
-  IServiceInteractionFactory,
   IDataProducerService,
   MetaService,
 } from '../IServiceDescriptor';
 
 class DataWarningService
-  implements
-    IDataProducerService<IDataWarning>,
-    IServiceInteractionFactory<IDataWarningInteraction> {
+  implements IDataProducerService<IDataWarning, IDataWarningInteraction> {
   private readonly _rule: RuleBuilderService;
 
   constructor(rule: RuleBuilderService, serviceName: string) {

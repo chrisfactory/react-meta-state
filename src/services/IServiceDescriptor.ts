@@ -6,26 +6,23 @@ interface IInteractData<S> {
   readonly value: S | undefined;
   readonly services: ReadonlyArray<MetaService>;
 }
-interface IServiceInteractionFactory<
-  TServiceInteraction extends IServiceInteraction
-> {
-  getInteraction<S>(getContext: () => IInteractData<S>): TServiceInteraction;
-}
-
 interface IServiceDescriptor<
   TServiceResult,
   TInteract extends IServiceInteraction
 > {
   readonly serviceName: string;
-  readonly dataProducer: IDataProducerService<TServiceResult> &
-    IServiceInteractionFactory<TInteract>;
+  readonly dataProducer: IDataProducerService<TServiceResult, TInteract>;
 }
 type MetaService = IServiceDescriptor<any, any>;
-interface IDataProducerService<TResult> {
+interface IDataProducerService<
+  TResult,
+  TServiceInteraction extends IServiceInteraction
+> {
   readonly parentName: string;
   readonly factoryName: string;
   readonly identifier: string;
   getData<S>(current: TResult, value: S, scope: string): TResult;
+  getInteraction<S>(getContext: () => IInteractData<S>): TServiceInteraction;
 }
 
 export {
@@ -33,6 +30,5 @@ export {
   IServiceDescriptor,
   IServiceInteraction,
   IInteractData,
-  IServiceInteractionFactory,
   IDataProducerService,
 };
