@@ -48,7 +48,7 @@ class DataErrorServiceResultFactory
   ): IDataError {
     const context = getContext();
     const result = this.getNextResult(context.value, scope, context.services);
-    context.interactCallback(result);
+    context.callback(result);
     return result;
   }
 

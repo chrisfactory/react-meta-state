@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { resolveSetStateAction, resolveState } from './helpers';
+import { Box, getBox } from './internal.MetaServicesFunc';
 import { IInteractData, MetaService } from './services/IServiceDescriptor';
 import { ServiceResult } from './services/ServiceResult';
 
@@ -105,51 +105,27 @@ function useMetaState<S = undefined>(
   initialState: S | (() => S) | undefined = undefined,
   ...args: ReadonlyArray<MetaService>
 ) {
-  function extractDefaultDataValue(): any {
-    const srvices = args;
-    let finalResult: any = {};
-    srvices.forEach((service) => {
-      finalResult = { ...finalResult, ...service.resultFactory.default };
-    });
-    return finalResult;
-  }
-  const [box, setBox] = useState<Box<S | undefined>>({
-    value: resolveState(initialState),
-    data: extractDefaultDataValue(),
-  });
+  let lastBox: Box<S | undefined> = getBox(initialState, args, 'init');
+  const [box, setBox] = useState<Box<S | undefined>>(lastBox);
 
   const setValue: Dispatch<SetStateAction<S | undefined>> = (
     value: SetStateAction<S | undefined>,
   ) => {
-    const val = resolveSetStateAction(value, box.value);
-    const srvices = args;
-    const resultHash: any[] = [];
-    let finalResult: any = {};
-    srvices.forEach((service) => {
-      const id = service.resultFactory.identifier;
-      const result = service.resultFactory.getResult(
-        resultHash[id],
-        val,
-        'changed',
-      );
-      resultHash[id] = result;
-      finalResult = { ...finalResult, ...result };
-    });
-    setBox({ value: val, data: finalResult });
+    lastBox = getBox(value, args, 'changed');
+    setBox(lastBox);
   };
 
-  let lastDataValue: any;
   function SetFromInteract(data: any) {
-    if (!lastDataValue) lastDataValue = box.data;
-    lastDataValue = { ...lastDataValue, ...data };
-    setBox({ value: box.value, data: lastDataValue });
+    lastBox = { value: lastBox.value, data: { ...lastBox.data, ...data } };
+    setBox(lastBox);
   }
+
   function Wrap(): any {
     let finalResult: any = box.data;
     const srv = args;
     srv.forEach((service) => {
       const interactRequest: IInteractData<S> = {
-        interactCallback: SetFromInteract,
+        callback: SetFromInteract,
         value: box.value,
         services: args,
       };
@@ -162,9 +138,5 @@ function useMetaState<S = undefined>(
   }
 
   return [box.value, Object.assign(setValue, Wrap())];
-  interface Box<S> {
-    value: S | undefined;
-    data: any;
-  }
 }
 export { useMetaState as default };

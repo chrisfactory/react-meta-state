@@ -2,7 +2,7 @@ interface IServiceInteraction {
   interact(): any;
 }
 interface IInteractData<S> {
-  interactCallback(result: any);
+  callback(result: any);
   readonly value: S | undefined;
   readonly services: ReadonlyArray<MetaService>;
 }
@@ -25,7 +25,6 @@ interface IServiceResultFactory<TResult> {
   readonly parentName: string;
   readonly factoryName: string;
   readonly identifier: string;
-  readonly default: TResult;
   getNextResult<S>(value: S, scope: string, services: MetaService[]): TResult;
   getResult<S>(current: TResult, value: S, scope: string): TResult;
 }
