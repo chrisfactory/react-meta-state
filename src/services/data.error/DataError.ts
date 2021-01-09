@@ -5,7 +5,7 @@ import { RuleBuilderDependencies } from '../../rules/element/dependencies/RuleBu
 import { RuleArgumentDependencyTypes } from '../../rules/element/dependencies/RuleArgumentDependencyTypes';
 import { RuleElement } from '../../rules/element/RuleElement';
 import { IDataError } from './IDataError';
-import DataErrorServiceResultFactory from './DataErrorServiceResultFactory';
+import DataErrorService from './DataErrorService';
 import { IDataErrorInteraction } from './IDataErrorInteraction';
 
 export function DataError<T extends RuleElementDependencies>(
@@ -21,14 +21,11 @@ export function DataError<T extends RuleElementDependencies>(
 ): IServiceDescriptor<IDataError, IDataErrorInteraction> {
   const ruleBuilder = RuleServiceResolver(rule, dependencies);
   const serviceName = 'data.error.producer';
-  const serviceResult = new DataErrorServiceResultFactory(
-    ruleBuilder,
-    serviceName,
-  );
+  const service = new DataErrorService(ruleBuilder, serviceName);
 
   const serviceDes: IServiceDescriptor<IDataError, IDataErrorInteraction> = {
     serviceName,
-    resultFactory: serviceResult,
+    dataProducer: service,
   };
   return serviceDes;
 }

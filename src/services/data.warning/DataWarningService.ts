@@ -4,13 +4,13 @@ import { IDataWarningInteraction } from './IDataWarningInteraction';
 import {
   IInteractData,
   IServiceInteractionFactory,
-  IServiceResultFactory,
+  IDataProducerService,
   MetaService,
 } from '../IServiceDescriptor';
 
-class DataWarningServiceResultFactory
+class DataWarningService
   implements
-    IServiceResultFactory<IDataWarning>,
+    IDataProducerService<IDataWarning>,
     IServiceInteractionFactory<IDataWarningInteraction> {
   private readonly _rule: RuleBuilderService;
 
@@ -61,8 +61,8 @@ class DataWarningServiceResultFactory
   ): IDataWarning {
     let dataResult = this.default;
     services.forEach((service) => {
-      if (service.resultFactory.identifier === this.identifier) {
-        dataResult = service.resultFactory.getResult(
+      if (service.dataProducer.identifier === this.identifier) {
+        dataResult = service.dataProducer.getData(
           dataResult,
           value,
           scope,
@@ -73,7 +73,7 @@ class DataWarningServiceResultFactory
     return dataResult;
   }
 
-  getResult<S>(current: IDataWarning, value: S, scope: string): IDataWarning {
+  getData<S>(current: IDataWarning, value: S, scope: string): IDataWarning {
     const ruleResult = this._rule.check(value, scope);
     let datas = ruleResult.datas;
     if (current && current.hasWarnings) {
@@ -86,4 +86,4 @@ class DataWarningServiceResultFactory
     };
   }
 }
-export { DataWarningServiceResultFactory as default };
+export { DataWarningService as default };

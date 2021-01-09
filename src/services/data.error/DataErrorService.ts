@@ -4,13 +4,13 @@ import RuleBuilderService from '../../rules/service/RuleBuilderService';
 import {
   IInteractData,
   IServiceInteractionFactory,
-  IServiceResultFactory,
+  IDataProducerService,
   MetaService,
 } from '../IServiceDescriptor';
 
-class DataErrorServiceResultFactory
+class DataErrorService
   implements
-    IServiceResultFactory<IDataError>,
+    IDataProducerService<IDataError>,
     IServiceInteractionFactory<IDataErrorInteraction> {
   private readonly _rule: RuleBuilderService;
 
@@ -59,8 +59,8 @@ class DataErrorServiceResultFactory
   ): IDataError {
     let dataResult = this.default;
     services.forEach((service) => {
-      if (service.resultFactory.identifier === this.identifier) {
-        dataResult = service.resultFactory.getResult(
+      if (service.dataProducer.identifier === this.identifier) {
+        dataResult = service.dataProducer.getData(
           dataResult,
           value,
           scope,
@@ -71,7 +71,7 @@ class DataErrorServiceResultFactory
     return dataResult;
   }
 
-  getResult<S>(current: IDataError, value: S, scope: string): IDataError {
+  getData<S>(current: IDataError, value: S, scope: string): IDataError {
     const ruleResult = this._rule.check(value, scope);
     let datas = ruleResult.datas;
     if (current && current.hasErrors) {
@@ -85,4 +85,4 @@ class DataErrorServiceResultFactory
   }
 }
 
-export { DataErrorServiceResultFactory as default };
+export { DataErrorService as default };

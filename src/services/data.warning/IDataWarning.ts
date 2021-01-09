@@ -1,4 +1,4 @@
 export interface IDataWarning {
-  hasWarnings: boolean;
-  dataWarnings: any[];
+  readonly hasWarnings: boolean;
+  readonly dataWarnings: any[];
 }

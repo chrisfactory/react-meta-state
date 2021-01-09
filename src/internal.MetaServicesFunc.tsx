@@ -30,12 +30,8 @@ function getBox<S>(
   let data: any = {};
   const resultHash: any[] = [];
   services.forEach((service) => {
-    const id = service.resultFactory.identifier;
-    const result = service.resultFactory.getResult(
-      resultHash[id],
-      value,
-      event,
-    );
+    const id = service.dataProducer.identifier;
+    const result = service.dataProducer.getData(resultHash[id], value, event);
     resultHash[id] = result;
     data = { ...data, ...result };
   });

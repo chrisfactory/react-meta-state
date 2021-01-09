@@ -17,16 +17,15 @@ interface IServiceDescriptor<
   TInteract extends IServiceInteraction
 > {
   readonly serviceName: string;
-  readonly resultFactory: IServiceResultFactory<TServiceResult> &
+  readonly dataProducer: IDataProducerService<TServiceResult> &
     IServiceInteractionFactory<TInteract>;
 }
 type MetaService = IServiceDescriptor<any, any>;
-interface IServiceResultFactory<TResult> {
+interface IDataProducerService<TResult> {
   readonly parentName: string;
   readonly factoryName: string;
   readonly identifier: string;
-  getNextResult<S>(value: S, scope: string, services: MetaService[]): TResult;
-  getResult<S>(current: TResult, value: S, scope: string): TResult;
+  getData<S>(current: TResult, value: S, scope: string): TResult;
 }
 
 export {
@@ -35,5 +34,5 @@ export {
   IServiceInteraction,
   IInteractData,
   IServiceInteractionFactory,
-  IServiceResultFactory,
+  IDataProducerService,
 };

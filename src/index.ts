@@ -23,19 +23,19 @@ import {
   IServiceDescriptor,
   IServiceInteraction,
   IServiceInteractionFactory,
-  IServiceResultFactory,
+  IDataProducerService,
   MetaService,
 } from './services/IServiceDescriptor';
 import { ServiceResult } from './services/ServiceResult';
 // Services.Interact
 // Services.DataErrors
 import { DataError } from './services/data.error/DataError';
-import DataErrorServiceResultFactory from './services/data.error/DataErrorServiceResultFactory';
+import DataErrorService from './services/data.error/DataErrorService';
 import { IDataError } from './services/data.error/IDataError';
 import { IDataErrorInteraction } from './services/data.error/IDataErrorInteraction';
 // Services.DataWarnings
 import { DataWarning } from './services/data.warning/DataWarning';
-import DataWarningServiceResultFactory from './services/data.warning/DataWarningServiceResultFactory';
+import DataWarningService from './services/data.warning/DataWarningService';
 import { IDataWarning } from './services/data.warning/IDataWarning';
 import { IDataWarningInteraction } from './services/data.warning/IDataWarningInteraction';
 // hooks
@@ -61,7 +61,7 @@ export { Required, NotEqual, Equal };
 // Services
 export type {
   IServiceDescriptor,
-  IServiceResultFactory,
+  IDataProducerService,
   MetaService,
   ServiceResult,
 };
@@ -69,14 +69,14 @@ export type {
 export type { IServiceInteractionFactory, IServiceInteraction, IInteractData };
 // Services.DataErrors
 export type {
-  DataErrorServiceResultFactory,
+  DataErrorService,
   IDataError,
   IDataErrorInteraction as IDataErrorIneraction,
 };
 export { DataError };
 // Services.Warnings
 export type {
-  DataWarningServiceResultFactory,
+  DataWarningService,
   IDataWarning,
   IDataWarningInteraction as IDataWarningIneraction,
 };

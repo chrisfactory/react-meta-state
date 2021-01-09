@@ -1,4 +1,4 @@
 export interface IDataError {
-  hasErrors: boolean;
-  dataErrors: any[];
+  readonly hasErrors: boolean;
+  readonly dataErrors: any[];
 }

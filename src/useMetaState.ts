@@ -129,9 +129,7 @@ function useMetaState<S = undefined>(
         value: box.value,
         services: args,
       };
-      const result = service.resultFactory.getInteraction(
-        () => interactRequest,
-      );
+      const result = service.dataProducer.getInteraction(() => interactRequest);
       finalResult = { ...finalResult, ...result };
     });
     return finalResult;

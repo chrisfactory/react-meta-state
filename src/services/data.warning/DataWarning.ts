@@ -5,7 +5,7 @@ import { RuleBuilderDependencies } from '../../rules/element/dependencies/RuleBu
 import { RuleArgumentDependencyTypes } from '../../rules/element/dependencies/RuleArgumentDependencyTypes';
 import { RuleElement } from '../../rules/element/RuleElement';
 import { IDataWarning } from './IDataWarning';
-import DataWarningServiceResultFactory from './DataWarningServiceResultFactory';
+import DataWarningService from './DataWarningService';
 import { IDataWarningInteraction } from './IDataWarningInteraction';
 
 export function DataWarning<T extends RuleElementDependencies>(
@@ -21,26 +21,14 @@ export function DataWarning<T extends RuleElementDependencies>(
 ): IServiceDescriptor<IDataWarning, IDataWarningInteraction> {
   const ruleBuilder = RuleServiceResolver(rule, dependencies);
   const serviceName = 'data.Warning.producer';
-  const serviceResult = new DataWarningServiceResultFactory(
-    ruleBuilder,
-    serviceName,
-  );
+  const service = new DataWarningService(ruleBuilder, serviceName);
 
   const serviceDes: IServiceDescriptor<
     IDataWarning,
     IDataWarningInteraction
   > = {
     serviceName,
-    resultFactory: serviceResult,
-    //  {
-    //     identifier:serviceResult.identifier,
-    //     parentName : serviceResult.parentName,
-    //     factoryName:serviceResult.factoryName,
-    //     default:serviceResult.default,
-    //     getNextResult:serviceResult.getNextResult,
-    //     getResult:serviceResult.getResult,
-    //     getInteraction:serviceResult.getInteraction
-    //   }
+    dataProducer: service,
   };
   return serviceDes;
 }
