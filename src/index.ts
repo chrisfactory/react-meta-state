@@ -20,6 +20,7 @@ import { StepRules } from './rules/element/collection/StepRules';
 // Services
 import {
   InteractiveService,
+  InteractiveServices,
   IInteractiveServiceDescriptor,
   IInteractiveServiceProducer,
   IInteractiveContext,
@@ -43,6 +44,13 @@ import {
   IDataWarningInteraction,
   IDataWarning,
 } from './services/data.warning/IDataWarningInteraction';
+// Services.DataInformations
+import { DataInformation } from './services/data.information/DataInformation';
+import DataInformationService from './services/data.information/DataInformationService';
+import {
+  IDataInformationInteraction,
+  IDataInformation,
+} from './services/data.information/IDataInformationInteraction';
 // hooks
 import useMetaState from './useMetaState';
 import useDataErrorGroup, { IDataErrorGroup } from './useDataErrorGroup';
@@ -66,6 +74,7 @@ export { Required, NotEqual, Equal };
 // Services
 export type {
   InteractiveService,
+  InteractiveServices,
   IInteractiveServiceDescriptor,
   IInteractiveServiceProducer,
   IInteractiveContext,
@@ -75,20 +84,18 @@ export type {
   ServiceResult,
 };
 // Services.DataErrors
-export type {
-  DataErrorService,
-  IDataError,
-  IDataErrorInteraction as IDataErrorIneraction,
-};
+export type { DataErrorService, IDataError, IDataErrorInteraction };
 export { DataError };
 // Services.Warnings
-export type {
-  DataWarningService,
-  IDataWarning,
-  IDataWarningInteraction as IDataWarningIneraction,
-};
+export type { DataWarningService, IDataWarning, IDataWarningInteraction };
 export { DataWarning };
-
+// Services.Informations
+export type {
+  DataInformationService,
+  IDataInformation,
+  IDataInformationInteraction,
+};
+export { DataInformation };
 // hooks
 export { useMetaState, useDataErrorGroup };
 export type { IDataErrorGroup };

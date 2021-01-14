@@ -6,25 +6,21 @@ import {
 } from './internal.MetaServicesFunc';
 import {
   IInteractiveContext,
-  IInteractiveServiceDescriptor,
   IInteractiveServiceProducer,
-  InteractiveService,
+  InteractiveServices,
 } from './services/IInteractiveServiceDescriptor';
 import { ServiceResult } from './services/ServiceResult';
 
-function useMetaState<
-  T extends IInteractiveServiceDescriptor<any>[],
-  S = undefined
->(
+function useMetaState<T extends InteractiveServices, S = undefined>(
   ...args: T
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>> & ServiceResult<T>];
-function useMetaState<T extends IInteractiveServiceDescriptor<any>[], S>(
+function useMetaState<T extends InteractiveServices, S>(
   initialState: S | (() => S),
   ...args: T
 ): [S, Dispatch<SetStateAction<S>> & ServiceResult<T>];
 function useMetaState<S = undefined>(
   initialState: S | (() => S) | undefined = undefined,
-  ...args: Array<InteractiveService>
+  ...args: InteractiveServices
 ) {
   const [interactiveServices] = useState<IInteractiveServiceProducer<any>[]>(
     getInteractiveServiceProducer(args),

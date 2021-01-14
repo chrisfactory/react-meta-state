@@ -36,9 +36,10 @@ interface IInteractiveServiceDescriptor<
   readonly serviceFactory: InteractiveServiceFactory<TInteractive>;
 }
 type InteractiveService = IInteractiveServiceDescriptor<any>;
-
+type InteractiveServices = ReadonlyArray<InteractiveService>;
 export type {
   InteractiveService,
+  InteractiveServices,
   IInteractiveServiceDescriptor,
   IInteractiveServiceProducer,
   IInteractiveContext,
