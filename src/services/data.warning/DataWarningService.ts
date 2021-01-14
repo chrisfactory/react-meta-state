@@ -53,8 +53,7 @@ class DataWarningService
       this.innerCheckWarnings<S>(s, getContext);
     const interactive: IDataWarningInteraction = {
       ...partialInteractiveOject,
-      interact: interactor,
-      CheckWarnings: interactor,
+      checkWarnings: interactor,
     };
     return interactive;
   }

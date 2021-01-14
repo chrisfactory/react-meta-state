@@ -56,8 +56,7 @@ class DataInformationService
       this.innerCheckInformations<S>(s, getContext);
     const interactive: IDataInformationInteraction = {
       ...partialInteractiveOject,
-      interact: interactor,
-      CheckInformations: interactor,
+      checkInformations: interactor,
     };
     return interactive;
   }

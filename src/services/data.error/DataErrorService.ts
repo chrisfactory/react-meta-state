@@ -50,8 +50,7 @@ class DataErrorService
       this.innerCheckErrors<S>(s, getContext);
     const interactive: IDataErrorInteraction = {
       ...partialInteractiveOject,
-      interact: interactor,
-      CheckErrors: interactor,
+      checkErrors: interactor,
     };
     return interactive;
   }

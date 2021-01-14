@@ -24,7 +24,6 @@ import {
   IInteractiveServiceDescriptor,
   IInteractiveServiceProducer,
   IInteractiveContext,
-  IInteractiveService,
   InteractiveServiceFactory,
   InteractiveServiceDependency,
 } from './services/IInteractiveServiceDescriptor';
@@ -78,7 +77,6 @@ export type {
   IInteractiveServiceDescriptor,
   IInteractiveServiceProducer,
   IInteractiveContext,
-  IInteractiveService,
   InteractiveServiceFactory,
   InteractiveServiceDependency,
   ServiceResult,

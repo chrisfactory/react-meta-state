@@ -1,15 +1,10 @@
-interface IInteractiveService {
-  interact(): any;
-}
 interface IInteractiveContext<S> {
   interactionCallback(identifier: string, partialInteractiveOject: any);
   readonly value: S | undefined;
   readonly services: ReadonlyArray<InteractiveService>;
 }
 
-interface IInteractiveServiceProducer<
-  TInteractiveResult extends IInteractiveService
-> {
+interface IInteractiveServiceProducer<TInteractiveResult> {
   readonly identifier: string;
   getPartialInteractiveOject<S>(
     services: ReadonlyArray<InteractiveService>,
@@ -23,14 +18,10 @@ interface IInteractiveServiceProducer<
 }
 
 type InteractiveServiceDependency = () => any;
-type InteractiveServiceFactory<
-  TInteractiveResult extends IInteractiveService
-> = (
+type InteractiveServiceFactory<TInteractiveResult> = (
   descriptor: IInteractiveServiceDescriptor<TInteractiveResult>,
 ) => IInteractiveServiceProducer<TInteractiveResult>;
-interface IInteractiveServiceDescriptor<
-  TInteractive extends IInteractiveService
-> {
+interface IInteractiveServiceDescriptor<TInteractive> {
   readonly serviceName: string;
   readonly serviceDependencies: InteractiveServiceDependency;
   readonly serviceFactory: InteractiveServiceFactory<TInteractive>;
@@ -43,7 +34,6 @@ export type {
   IInteractiveServiceDescriptor,
   IInteractiveServiceProducer,
   IInteractiveContext,
-  IInteractiveService,
   InteractiveServiceFactory,
   InteractiveServiceDependency,
 };

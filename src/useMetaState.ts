@@ -44,7 +44,8 @@ function useMetaState<S = undefined>(
   }
 
   function Wrap(): any {
-    let finalResult: any[] = box.dataByService;
+    const dataByService: any[] = box.dataByService;
+    let finalResult: any = {};
     const interactRequest: IInteractiveContext<S> = {
       interactionCallback: SetFromInteract,
       value: box.value,
@@ -53,7 +54,7 @@ function useMetaState<S = undefined>(
     const getContext = () => interactRequest;
     interactiveServices.forEach((producer) => {
       const result = producer.getInteractiveOject(
-        finalResult[producer.identifier],
+        dataByService[producer.identifier],
         getContext,
       );
       finalResult = { ...finalResult, ...result };
