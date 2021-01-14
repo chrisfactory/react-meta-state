@@ -1,8 +1,16 @@
-import { IServiceDescriptor } from './IServiceDescriptor';
+import { IInteractiveServiceDescriptor } from './IInteractiveServiceDescriptor';
 
-export type ServiceResult<TService> = TService extends IServiceDescriptor<
-  infer Result,
-  infer Interact
->
-  ? Result & Interact
+type Intersect<T> = (T extends any ? (x: T) => any : never) extends (
+  x: infer R,
+) => any
+  ? R
+  : never;
+export type ExtractInteractiveService<
+  T extends any
+> = T extends IInteractiveServiceDescriptor<infer Result> ? Result : never;
+// export type ServiceResult<T extends  IInteractiveServiceDescriptor<any>[]> = T extends (IInteractiveServiceDescriptor<infer Result>)[]? Intersect<Result> : never;
+export type ServiceResult<
+  T extends IInteractiveServiceDescriptor<any>[]
+> = T extends (infer Result)[]
+  ? Intersect<ExtractInteractiveService<Result>>
   : never;

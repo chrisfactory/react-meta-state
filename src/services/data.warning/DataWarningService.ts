@@ -1,26 +1,22 @@
-import RuleBuilderService from '../../rules/service/RuleBuilderService';
-import { IDataWarning } from './IDataWarning';
-import { IDataWarningInteraction } from './IDataWarningInteraction';
 import {
-  IInteractData,
-  IDataProducerService,
-  MetaService,
-} from '../IServiceDescriptor';
+  IDataWarning,
+  IDataWarningInteraction,
+} from './IDataWarningInteraction';
+import {
+  IInteractiveContext,
+  IInteractiveServiceDescriptor,
+  IInteractiveServiceProducer,
+  InteractiveService,
+} from '../IInteractiveServiceDescriptor';
+import RuleBuilderService from '../../rules/service/RuleBuilderService';
 
 class DataWarningService
-  implements IDataProducerService<IDataWarning, IDataWarningInteraction> {
-  private readonly _rule: RuleBuilderService;
-
-  constructor(rule: RuleBuilderService, serviceName: string) {
-    this.factoryName = 'data.warning.service.result.factory';
-    this.parentName = serviceName;
-    this.identifier = `${serviceName} => ${this.factoryName}`;
-    this._rule = rule;
+  implements IInteractiveServiceProducer<IDataWarningInteraction> {
+  constructor(
+    descriptor: IInteractiveServiceDescriptor<IDataWarningInteraction>,
+  ) {
+    this.identifier = descriptor.serviceName;
   }
-
-  readonly parentName: string;
-
-  readonly factoryName: string;
 
   readonly identifier: string;
 
@@ -29,58 +25,53 @@ class DataWarningService
     dataWarnings: [],
   };
 
-  getInteraction<S>(
-    getContext: () => IInteractData<S>,
+  getPartialInteractiveOject<S>(
+    services: readonly InteractiveService[],
+    value: S,
+    scope: string,
+  ): IDataWarning {
+    let dataResult: any[] = [];
+    services.forEach((inService) => {
+      if (inService.serviceName === this.identifier) {
+        const rule = inService.serviceDependencies() as RuleBuilderService;
+        if (rule) {
+          const ruleResult = rule.check<S>(value, scope);
+          if (ruleResult.datas.length > 0) {
+            dataResult = dataResult.concat(ruleResult.datas);
+          }
+        }
+      }
+    });
+    return { dataWarnings: dataResult, hasWarnings: dataResult.length > 0 };
+  }
+
+  getInteractiveOject<S>(
+    partialInteractiveOject: any,
+    getContext: () => IInteractiveContext<S>,
   ): IDataWarningInteraction {
     const interactor = (s: string | undefined = undefined): IDataWarning =>
       this.innerCheckWarnings<S>(s, getContext);
-    const interatcor: IDataWarningInteraction = {
+    const interactive: IDataWarningInteraction = {
+      ...partialInteractiveOject,
       interact: interactor,
       CheckWarnings: interactor,
     };
-    return interatcor;
+    return interactive;
   }
 
   innerCheckWarnings<S>(
     scope = '*',
-    getContext: () => IInteractData<S>,
+    getContext: () => IInteractiveContext<S>,
   ): IDataWarning {
     const context = getContext();
-    const result = this.getNextResult(context.value, scope, context.services);
-    context.callback(result);
+    const result = this.getPartialInteractiveOject(
+      context.services,
+      context.value,
+      scope,
+    );
+    context.interactionCallback(this.identifier, result);
     return result;
   }
-
-  getNextResult<S>(
-    value: S,
-    scope: string,
-    services: ReadonlyArray<MetaService>,
-  ): IDataWarning {
-    let dataResult = this.default;
-    services.forEach((service) => {
-      if (service.dataProducer.identifier === this.identifier) {
-        dataResult = service.dataProducer.getData(
-          dataResult,
-          value,
-          scope,
-        ) as IDataWarning;
-      }
-    });
-
-    return dataResult;
-  }
-
-  getData<S>(current: IDataWarning, value: S, scope: string): IDataWarning {
-    const ruleResult = this._rule.check(value, scope);
-    let datas = ruleResult.datas;
-    if (current && current.hasWarnings) {
-      if (datas.length > 0) datas = current.dataWarnings.concat(datas);
-      else datas = current.dataWarnings;
-    }
-    return {
-      hasWarnings: datas.length > 0,
-      dataWarnings: datas,
-    };
-  }
 }
+
 export { DataWarningService as default };

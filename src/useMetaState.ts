@@ -1,135 +1,65 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Box, getBox } from './internal.MetaServicesFunc';
-import { IInteractData, MetaService } from './services/IServiceDescriptor';
+import {
+  Box,
+  getBox,
+  getInteractiveServiceProducer,
+} from './internal.MetaServicesFunc';
+import {
+  IInteractiveContext,
+  IInteractiveServiceDescriptor,
+  IInteractiveServiceProducer,
+  InteractiveService,
+} from './services/IInteractiveServiceDescriptor';
 import { ServiceResult } from './services/ServiceResult';
 
-function useMetaState<T1 extends MetaService, S = undefined>(
-  s1: T1,
-): [S | undefined, Dispatch<SetStateAction<S | undefined>> & ServiceResult<T1>];
 function useMetaState<
-  T1 extends MetaService,
-  T2 extends MetaService,
+  T extends IInteractiveServiceDescriptor<any>[],
   S = undefined
 >(
-  s1: T1,
-  s2: T2,
-): [
-  S | undefined,
-  Dispatch<SetStateAction<S | undefined>> &
-    ServiceResult<T1> &
-    ServiceResult<T2>,
-];
-function useMetaState<
-  T1 extends MetaService,
-  T2 extends MetaService,
-  T3 extends MetaService,
-  S = undefined
->(
-  s1: T1,
-  s2: T2,
-  s3: T3,
-): [
-  S | undefined,
-  Dispatch<SetStateAction<S | undefined>> &
-    ServiceResult<T1> &
-    ServiceResult<T2> &
-    ServiceResult<T3>,
-];
-function useMetaState<
-  T1 extends MetaService,
-  T2 extends MetaService,
-  T3 extends MetaService,
-  T4 extends MetaService,
-  S = undefined
->(
-  s1: T1,
-  s2: T2,
-  s3: T3,
-  s4: T4,
-): [
-  S | undefined,
-  Dispatch<SetStateAction<S | undefined>> &
-    ServiceResult<T1> &
-    ServiceResult<T2> &
-    ServiceResult<T3> &
-    ServiceResult<T4>,
-];
-function useMetaState<T1 extends MetaService, S>(
+  ...args: T
+): [S | undefined, Dispatch<SetStateAction<S | undefined>> & ServiceResult<T>];
+function useMetaState<T extends IInteractiveServiceDescriptor<any>[], S>(
   initialState: S | (() => S),
-  s1: T1,
-): [S, Dispatch<SetStateAction<S>> & ServiceResult<T1>];
-function useMetaState<T1 extends MetaService, T2 extends MetaService, S>(
-  initialState: S | (() => S),
-  s1: T1,
-  s2: T2,
-): [S, Dispatch<SetStateAction<S>> & ServiceResult<T1> & ServiceResult<T2>];
-function useMetaState<
-  T1 extends MetaService,
-  T2 extends MetaService,
-  T3 extends MetaService,
-  S
->(
-  initialState: S | (() => S),
-  s1: T1,
-  s2: T2,
-  s3: T3,
-): [
-  S,
-  Dispatch<SetStateAction<S>> &
-    ServiceResult<T1> &
-    ServiceResult<T2> &
-    ServiceResult<T3>,
-];
-function useMetaState<
-  T1 extends MetaService,
-  T2 extends MetaService,
-  T3 extends MetaService,
-  T4 extends MetaService,
-  S
->(
-  initialState: S | (() => S),
-  s1: T1,
-  s2: T2,
-  s3: T3,
-  s4: T4,
-): [
-  S,
-  Dispatch<SetStateAction<S>> &
-    ServiceResult<T1> &
-    ServiceResult<T2> &
-    ServiceResult<T3> &
-    ServiceResult<T4>,
-];
-
+  ...args: T
+): [S, Dispatch<SetStateAction<S>> & ServiceResult<T>];
 function useMetaState<S = undefined>(
   initialState: S | (() => S) | undefined = undefined,
-  ...args: ReadonlyArray<MetaService>
+  ...args: Array<InteractiveService>
 ) {
-  let lastBox: Box<S | undefined> = getBox(initialState, args, 'init');
-  const [box, setBox] = useState<Box<S | undefined>>(lastBox);
+  const [interactiveServices] = useState<IInteractiveServiceProducer<any>[]>(
+    getInteractiveServiceProducer(args),
+  );
 
+  const [box, setBox] = useState<Box<S | undefined>>(
+    getBox(initialState, interactiveServices, args, 'loaded'),
+  );
+  let lastBox: Box<S | undefined> = box;
   const setValue: Dispatch<SetStateAction<S | undefined>> = (
     value: SetStateAction<S | undefined>,
   ) => {
-    lastBox = getBox(value, args, 'changed');
+    lastBox = getBox(value, interactiveServices, args, 'changed');
     setBox(lastBox);
   };
 
-  function SetFromInteract(data: any) {
-    lastBox = { value: lastBox.value, data: { ...lastBox.data, ...data } };
+  function SetFromInteract(identifier: string, data: any) {
+    lastBox = { value: lastBox.value, dataByService: lastBox.dataByService };
+    lastBox.dataByService[identifier] = data;
     setBox(lastBox);
   }
 
   function Wrap(): any {
-    let finalResult: any = box.data;
-    const srv = args;
-    srv.forEach((service) => {
-      const interactRequest: IInteractData<S> = {
-        callback: SetFromInteract,
-        value: box.value,
-        services: args,
-      };
-      const result = service.dataProducer.getInteraction(() => interactRequest);
+    let finalResult: any[] = box.dataByService;
+    const interactRequest: IInteractiveContext<S> = {
+      interactionCallback: SetFromInteract,
+      value: box.value,
+      services: args,
+    };
+    const getContext = () => interactRequest;
+    interactiveServices.forEach((producer) => {
+      const result = producer.getInteractiveOject(
+        finalResult[producer.identifier],
+        getContext,
+      );
       finalResult = { ...finalResult, ...result };
     });
     return finalResult;

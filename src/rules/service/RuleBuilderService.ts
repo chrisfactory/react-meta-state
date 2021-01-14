@@ -5,4 +5,4 @@ interface IRuleBuilderService {
 }
 
 type RuleBuilderService = IRuleBuilderService;
-export { RuleBuilderService as default };
+export type { RuleBuilderService as default };

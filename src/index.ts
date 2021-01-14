@@ -19,24 +19,30 @@ import { StepRules } from './rules/element/collection/StepRules';
 
 // Services
 import {
-  IInteractData,
-  IServiceDescriptor,
-  IServiceInteraction,
-  IDataProducerService,
-  MetaService,
-} from './services/IServiceDescriptor';
+  InteractiveService,
+  IInteractiveServiceDescriptor,
+  IInteractiveServiceProducer,
+  IInteractiveContext,
+  IInteractiveService,
+  InteractiveServiceFactory,
+  InteractiveServiceDependency,
+} from './services/IInteractiveServiceDescriptor';
 import { ServiceResult } from './services/ServiceResult';
 // Services.Interact
 // Services.DataErrors
 import { DataError } from './services/data.error/DataError';
 import DataErrorService from './services/data.error/DataErrorService';
-import { IDataError } from './services/data.error/IDataError';
-import { IDataErrorInteraction } from './services/data.error/IDataErrorInteraction';
+import {
+  IDataErrorInteraction,
+  IDataError,
+} from './services/data.error/IDataErrorInteraction';
 // Services.DataWarnings
 import { DataWarning } from './services/data.warning/DataWarning';
 import DataWarningService from './services/data.warning/DataWarningService';
-import { IDataWarning } from './services/data.warning/IDataWarning';
-import { IDataWarningInteraction } from './services/data.warning/IDataWarningInteraction';
+import {
+  IDataWarningInteraction,
+  IDataWarning,
+} from './services/data.warning/IDataWarningInteraction';
 // hooks
 import useMetaState from './useMetaState';
 import useDataErrorGroup, { IDataErrorGroup } from './useDataErrorGroup';
@@ -59,13 +65,15 @@ export { ServiceResolver, RuleDependencies, ConcatRules, StepRules };
 export { Required, NotEqual, Equal };
 // Services
 export type {
-  IServiceDescriptor,
-  IDataProducerService,
-  MetaService,
+  InteractiveService,
+  IInteractiveServiceDescriptor,
+  IInteractiveServiceProducer,
+  IInteractiveContext,
+  IInteractiveService,
+  InteractiveServiceFactory,
+  InteractiveServiceDependency,
   ServiceResult,
 };
-// Service.Interact
-export type { IServiceInteraction, IInteractData };
 // Services.DataErrors
 export type {
   DataErrorService,
@@ -80,7 +88,6 @@ export type {
   IDataWarningInteraction as IDataWarningIneraction,
 };
 export { DataWarning };
-// Services.DataWarnings
 
 // hooks
 export { useMetaState, useDataErrorGroup };

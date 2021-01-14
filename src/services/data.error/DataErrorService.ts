@@ -1,26 +1,19 @@
-import { IDataError } from './IDataError';
-import { IDataErrorInteraction } from './IDataErrorInteraction';
-import RuleBuilderService from '../../rules/service/RuleBuilderService';
+import { IDataError, IDataErrorInteraction } from './IDataErrorInteraction';
 import {
-  IInteractData,
-  IDataProducerService,
-  MetaService,
-} from '../IServiceDescriptor';
+  IInteractiveContext,
+  IInteractiveServiceDescriptor,
+  IInteractiveServiceProducer,
+  InteractiveService,
+} from '../IInteractiveServiceDescriptor';
+import RuleBuilderService from '../../rules/service/RuleBuilderService';
 
 class DataErrorService
-  implements IDataProducerService<IDataError, IDataErrorInteraction> {
-  private readonly _rule: RuleBuilderService;
-
-  constructor(rule: RuleBuilderService, serviceName: string) {
-    this.factoryName = 'data.error.service.result.factory';
-    this.parentName = serviceName;
-    this.identifier = `${serviceName} => ${this.factoryName}`;
-    this._rule = rule;
+  implements IInteractiveServiceProducer<IDataErrorInteraction> {
+  constructor(
+    descriptor: IInteractiveServiceDescriptor<IDataErrorInteraction>,
+  ) {
+    this.identifier = descriptor.serviceName;
   }
-
-  readonly parentName: string;
-
-  readonly factoryName: string;
 
   readonly identifier: string;
 
@@ -29,56 +22,52 @@ class DataErrorService
     dataErrors: [],
   };
 
-  getInteraction<S>(getContext: () => IInteractData<S>): IDataErrorInteraction {
+  getPartialInteractiveOject<S>(
+    services: readonly InteractiveService[],
+    value: S,
+    scope: string,
+  ): IDataError {
+    let dataResult: any[] = [];
+    services.forEach((inService) => {
+      if (inService.serviceName === this.identifier) {
+        const rule = inService.serviceDependencies() as RuleBuilderService;
+        if (rule) {
+          const ruleResult = rule.check<S>(value, scope);
+          if (ruleResult.datas.length > 0) {
+            dataResult = dataResult.concat(ruleResult.datas);
+          }
+        }
+      }
+    });
+    return { dataErrors: dataResult, hasErrors: dataResult.length > 0 };
+  }
+
+  getInteractiveOject<S>(
+    partialInteractiveOject: any,
+    getContext: () => IInteractiveContext<S>,
+  ): IDataErrorInteraction {
     const interactor = (s: string | undefined = undefined): IDataError =>
       this.innerCheckErrors<S>(s, getContext);
-    const interatcor: IDataErrorInteraction = {
+    const interactive: IDataErrorInteraction = {
+      ...partialInteractiveOject,
       interact: interactor,
       CheckErrors: interactor,
     };
-    return interatcor;
+    return interactive;
   }
 
   innerCheckErrors<S>(
     scope = '*',
-    getContext: () => IInteractData<S>,
+    getContext: () => IInteractiveContext<S>,
   ): IDataError {
     const context = getContext();
-    const result = this.getNextResult(context.value, scope, context.services);
-    context.callback(result);
+    const result = this.getPartialInteractiveOject(
+      context.services,
+      context.value,
+      scope,
+    );
+    context.interactionCallback(this.identifier, result);
     return result;
-  }
-
-  getNextResult<S>(
-    value: S,
-    scope: string,
-    services: ReadonlyArray<MetaService>,
-  ): IDataError {
-    let dataResult = this.default;
-    services.forEach((service) => {
-      if (service.dataProducer.identifier === this.identifier) {
-        dataResult = service.dataProducer.getData(
-          dataResult,
-          value,
-          scope,
-        ) as IDataError;
-      }
-    });
-
-    return dataResult;
-  }
-
-  getData<S>(current: IDataError, value: S, scope: string): IDataError {
-    const ruleResult = this._rule.check(value, scope);
-    let datas = ruleResult.datas;
-    if (current && current.hasErrors) {
-      if (datas.length > 0) datas = current.dataErrors.concat(datas);
-      else datas = current.dataErrors;
-    }
-    return {
-      hasErrors: datas.length > 0,
-      dataErrors: datas,
-    };
   }
 }
 

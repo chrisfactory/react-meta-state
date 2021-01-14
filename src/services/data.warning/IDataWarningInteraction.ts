@@ -1,6 +1,12 @@
-import { IServiceInteraction } from '../IServiceDescriptor';
+import { IInteractiveService } from '../IInteractiveServiceDescriptor';
 
-export interface IDataWarningInteraction extends IServiceInteraction {
-  CheckWarnings();
-  CheckWarnings(scope: string);
+export interface IDataWarning {
+  readonly hasWarnings: boolean;
+  readonly dataWarnings: any[];
+}
+export interface IDataWarningInteraction
+  extends IDataWarning,
+    IInteractiveService {
+  CheckWarnings(): IDataWarning;
+  CheckWarnings(scope: string): IDataWarning;
 }

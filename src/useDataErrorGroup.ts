@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IDataError } from './services/data.error/IDataError';
+import { IDataError } from './services/data.error/IDataErrorInteraction';
 
 export interface IDataErrorGroup {
   dataErrors: ReadonlyArray<any>;

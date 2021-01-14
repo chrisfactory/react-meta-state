@@ -1,7 +1,10 @@
-import { IServiceInteraction } from '../IServiceDescriptor';
-import { IDataError } from './IDataError';
+import { IInteractiveService } from '../IInteractiveServiceDescriptor';
 
-export interface IDataErrorInteraction extends IServiceInteraction {
+export interface IDataError {
+  readonly hasErrors: boolean;
+  readonly dataErrors: any[];
+}
+export interface IDataErrorInteraction extends IDataError, IInteractiveService {
   CheckErrors(): IDataError;
   CheckErrors(scope: string): IDataError;
 }
