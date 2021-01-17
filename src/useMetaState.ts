@@ -23,32 +23,32 @@ function useMetaState<S = undefined>(
   ...args: InteractiveServices
 ) {
   const [interactiveServices] = useState<IInteractiveServiceProducer<any>[]>(
-    getInteractiveServiceProducer(args),
+    () => getInteractiveServiceProducer(args),
   );
-
-  const [box, setBox] = useState<Box<S | undefined>>(
-    getBox(initialState, interactiveServices, args, 'loaded'),
-  );
-  let lastBox: Box<S | undefined> = box;
-  const setValue: Dispatch<SetStateAction<S | undefined>> = (
-    value: SetStateAction<S | undefined>,
+  const [lastAction, setLastAction] = useState('loaded');
+  const [value, setValue] = useState(initialState);
+  let lastBox: Box = getBox(value, interactiveServices, args, lastAction);
+  const setDataValue: Dispatch<SetStateAction<S | undefined>> = (
+    newValue: SetStateAction<S | undefined>,
   ) => {
-    lastBox = getBox(value, interactiveServices, args, 'changed');
-    setBox(lastBox);
+    const action = 'changed';
+    lastBox = getBox(newValue, interactiveServices, args, action);
+    setLastAction(action);
+    setValue(newValue);
   };
 
-  function SetFromInteract(identifier: string, data: any) {
-    lastBox = { value: lastBox.value, dataByService: lastBox.dataByService };
+  function SetFromInteract(identifier: string, data: any, action: string) {
+    lastBox = { dataByService: lastBox.dataByService };
     lastBox.dataByService[identifier] = data;
-    setBox(lastBox);
+    setLastAction(action);
   }
 
   function Wrap(): any {
-    const dataByService: any[] = box.dataByService;
+    const dataByService: any[] = lastBox.dataByService;
     let finalResult: any = {};
     const interactRequest: IInteractiveContext<S> = {
       interactionCallback: SetFromInteract,
-      value: box.value,
+      value,
       services: args,
     };
     const getContext = () => interactRequest;
@@ -62,6 +62,6 @@ function useMetaState<S = undefined>(
     return finalResult;
   }
 
-  return [box.value, Object.assign(setValue, Wrap())];
+  return [value, Object.assign(setDataValue, Wrap())];
 }
 export { useMetaState as default };

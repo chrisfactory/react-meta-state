@@ -18,11 +18,9 @@ export function DataError<T extends RuleElementDependencies>(
   rule: RuleElement | RuleBuilderDependencies<T>,
   dependencies: RuleArgumentDependencyTypes<T> | undefined = undefined,
 ): IInteractiveServiceDescriptor<IDataErrorInteraction> {
-  const ruleBuilder = RuleServiceResolver(rule, dependencies);
-  const serviceDescription: IInteractiveServiceDescriptor<IDataErrorInteraction> = {
+  return {
     serviceName: 'data.error.producer',
-    serviceDependencies: () => ruleBuilder,
+    serviceDependencies: RuleServiceResolver<T>(rule, dependencies),
     serviceFactory: (des) => new DataErrorService(des),
   };
-  return serviceDescription;
 }

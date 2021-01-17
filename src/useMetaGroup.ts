@@ -6,9 +6,7 @@ export interface IDataErrorGroup {
   hasErrors: boolean;
 }
 
-function useDataErrorGroup(
-  ...args: ReadonlyArray<IDataError>
-): IDataErrorGroup {
+function useMetaGroup(...args: ReadonlyArray<IDataError>): IDataErrorGroup {
   const [services, SetServices] = useState(args);
 
   return {
@@ -23,4 +21,4 @@ function useDataErrorGroup(
   };
 }
 
-export { useDataErrorGroup as default };
+export { useMetaGroup as default };

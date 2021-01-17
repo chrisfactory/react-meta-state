@@ -5,8 +5,7 @@ import {
 } from './services/IInteractiveServiceDescriptor';
 import serviceContainer from './services/ServiceContainer';
 
-interface Box<S> {
-  value: S | undefined;
+interface Box {
   dataByService: any[];
 }
 
@@ -34,12 +33,11 @@ function getInteractiveServiceProducer(
 }
 
 function getBox<S>(
-  fromData: S | (() => S) | SetStateAction<S | undefined> | undefined,
+  value: S,
   servicesProducer: IInteractiveServiceProducer<any>[],
   services: ReadonlyArray<InteractiveService>,
   event: string,
-): Box<S | undefined> {
-  const value = resolveState(fromData);
+): Box {
   const dataByService: any[] = [];
   servicesProducer.forEach((producer) => {
     const partialResult = producer.getPartialInteractiveOject(
@@ -49,7 +47,7 @@ function getBox<S>(
     );
     dataByService[producer.identifier] = partialResult;
   });
-  return { value, dataByService };
+  return { dataByService };
 }
 export { resolveState, getBox, getInteractiveServiceProducer };
 export type { Box };

@@ -1,5 +1,9 @@
 interface IInteractiveContext<S> {
-  interactionCallback(identifier: string, partialInteractiveOject: any);
+  interactionCallback(
+    identifier: string,
+    partialInteractiveOject: any,
+    action: string,
+  );
   readonly value: S | undefined;
   readonly services: ReadonlyArray<InteractiveService>;
 }
@@ -23,7 +27,7 @@ type InteractiveServiceFactory<TInteractiveResult> = (
 ) => IInteractiveServiceProducer<TInteractiveResult>;
 interface IInteractiveServiceDescriptor<TInteractive> {
   readonly serviceName: string;
-  readonly serviceDependencies: InteractiveServiceDependency;
+  readonly serviceDependencies: any;
   readonly serviceFactory: InteractiveServiceFactory<TInteractive>;
 }
 type InteractiveService = IInteractiveServiceDescriptor<any>;

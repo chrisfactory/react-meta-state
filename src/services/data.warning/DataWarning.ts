@@ -18,10 +18,9 @@ export function DataWarning<T extends RuleElementDependencies>(
   rule: RuleElement | RuleBuilderDependencies<T>,
   dependencies: RuleArgumentDependencyTypes<T> | undefined = undefined,
 ): IInteractiveServiceDescriptor<IDataWarningInteraction> {
-  const ruleBuilder = RuleServiceResolver(rule, dependencies);
   const serviceDescription: IInteractiveServiceDescriptor<IDataWarningInteraction> = {
     serviceName: 'data.warning.producer',
-    serviceDependencies: () => ruleBuilder,
+    serviceDependencies: RuleServiceResolver(rule, dependencies),
     serviceFactory: (des) => new DataWarningService(des),
   };
   return serviceDescription;

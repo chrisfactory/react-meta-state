@@ -52,7 +52,7 @@ import {
 } from './services/data.information/IDataInformationInteraction';
 // hooks
 import useMetaState from './useMetaState';
-import useDataErrorGroup, { IDataErrorGroup } from './useDataErrorGroup';
+import useDataErrorGroup, { IDataErrorGroup } from './useMetaGroup';
 
 // Selector
 export { defaultScope, InScope };

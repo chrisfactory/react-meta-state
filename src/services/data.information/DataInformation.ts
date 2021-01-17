@@ -18,10 +18,9 @@ export function DataInformation<T extends RuleElementDependencies>(
   rule: RuleElement | RuleBuilderDependencies<T>,
   dependencies: RuleArgumentDependencyTypes<T> | undefined = undefined,
 ): IInteractiveServiceDescriptor<IDataInformationInteraction> {
-  const ruleBuilder = RuleServiceResolver(rule, dependencies);
   const serviceDescription: IInteractiveServiceDescriptor<IDataInformationInteraction> = {
     serviceName: 'data.information.producer',
-    serviceDependencies: () => ruleBuilder,
+    serviceDependencies: RuleServiceResolver(rule, dependencies),
     serviceFactory: (des) => new DataInformationService(des),
   };
   return serviceDescription;

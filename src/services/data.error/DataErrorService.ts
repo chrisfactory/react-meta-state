@@ -30,7 +30,7 @@ class DataErrorService
     let dataResult: any[] = [];
     services.forEach((inService) => {
       if (inService.serviceName === this.identifier) {
-        const rule = inService.serviceDependencies() as RuleBuilderService;
+        const rule = inService.serviceDependencies as RuleBuilderService;
         if (rule) {
           const ruleResult = rule.check<S>(value, scope);
           if (ruleResult.datas.length > 0) {
@@ -65,7 +65,7 @@ class DataErrorService
       context.value,
       scope,
     );
-    context.interactionCallback(this.identifier, result);
+    context.interactionCallback(this.identifier, result, scope);
     return result;
   }
 }
