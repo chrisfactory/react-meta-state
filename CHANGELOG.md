@@ -1,3 +1,9 @@
+# [1.1.0-alpha.8](https://github.com/chrisfactory/react-meta-state/compare/v1.1.0-alpha.7...v1.1.0-alpha.8) (2021-01-21)
+
+
+
+
+
 # [1.1.0-alpha.7](https://github.com/chrisfactory/react-meta-state/compare/v1.1.0-alpha.6...v1.1.0-alpha.7) (2021-01-17)
 
 
