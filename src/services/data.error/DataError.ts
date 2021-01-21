@@ -13,7 +13,7 @@ import {
 import interactiveProducer from '../../decorator/InteractiveProducer';
 import RuleBuilderService from '../../rules/service/RuleBuilderService';
 
-const DATA_ERROR_SERVICE_NAME = 'data.information.producer';
+const DATA_ERROR_SERVICE_NAME = 'data.error.producer';
 
 @interactiveProducer(DATA_ERROR_SERVICE_NAME)
 export class DataErrorService
