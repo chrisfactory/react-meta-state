@@ -1,29 +1,22 @@
-import {
-  IInteractiveServiceProducer,
-  InteractiveService,
-} from './IInteractiveServiceDescriptor';
+import { IInteractiveServiceProducer } from './IInteractiveServiceDescriptor';
 
 interface IServiceContainer {
-  GetInteractiveService(
-    descriptor: InteractiveService,
-  ): IInteractiveServiceProducer<any>;
+  GetInteractiveService(name: string): IInteractiveServiceProducer<any>;
+  AddInteractiveService(name: string, insance: any);
 }
 class InternalServiceContainer implements IServiceContainer {
-  protected _registryMap = new Map<
-    InteractiveService,
-    IInteractiveServiceProducer<any>
-  >();
+  protected _registryMap = new Map<string, any>();
 
-  GetInteractiveService(
-    descriptor: InteractiveService,
-  ): IInteractiveServiceProducer<any> {
-    const interactiveService = this._registryMap.get(descriptor);
+  GetInteractiveService(name: string): IInteractiveServiceProducer<any> {
+    const interactiveService = this._registryMap.get(name);
     if (interactiveService) {
       return interactiveService;
     }
-    const addedinteractiveService = descriptor.serviceFactory(descriptor);
-    this._registryMap.set(descriptor, addedinteractiveService);
-    return addedinteractiveService;
+    throw new Error(`service ${name} not found`);
+  }
+
+  AddInteractiveService(name: string, insance: any) {
+    this._registryMap.set(name, insance);
   }
 }
 

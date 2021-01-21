@@ -20,15 +20,10 @@ interface IInteractiveServiceProducer<TInteractiveResult> {
     getContext: () => IInteractiveContext<S>,
   ): TInteractiveResult;
 }
-
-type InteractiveServiceDependency = () => any;
-type InteractiveServiceFactory<TInteractiveResult> = (
-  descriptor: IInteractiveServiceDescriptor<TInteractiveResult>,
-) => IInteractiveServiceProducer<TInteractiveResult>;
+// @ts-ignore-block
 interface IInteractiveServiceDescriptor<TInteractive> {
   readonly serviceName: string;
   readonly serviceDependencies: any;
-  readonly serviceFactory: InteractiveServiceFactory<TInteractive>;
 }
 type InteractiveService = IInteractiveServiceDescriptor<any>;
 type InteractiveServices = ReadonlyArray<InteractiveService>;
@@ -38,6 +33,4 @@ export type {
   IInteractiveServiceDescriptor,
   IInteractiveServiceProducer,
   IInteractiveContext,
-  InteractiveServiceFactory,
-  InteractiveServiceDependency,
 };

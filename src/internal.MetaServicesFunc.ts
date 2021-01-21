@@ -25,7 +25,7 @@ function getInteractiveServiceProducer(
     if (!map.has(service.serviceName))
       map.set(
         service.serviceName,
-        serviceContainer.GetInteractiveService(service),
+        serviceContainer.GetInteractiveService(service.serviceName),
       );
   });
   const it = map.values();

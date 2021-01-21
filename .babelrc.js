@@ -32,6 +32,7 @@ module.exports = api => {
       ],
       '@babel/preset-typescript',
     ],
-    plugins: [env === 'test' && 'istanbul'].filter(Boolean),
+    plugins: [env === 'test' && 'istanbul',
+    ["@babel/plugin-proposal-decorators", { "legacy": true }]].filter(Boolean),
   };
 };
